@@ -1,0 +1,809 @@
+import { useState, useEffect } from 'react'
+import { MessageSquare, Send, Plus, Search, Filter, Bell, AlertCircle, CheckCircle, XCircle, Crown, Star, Coins, Users, Clock, Eye, RefreshCw } from 'lucide-react'
+
+const Trading = () => {
+  const [activeTab, setActiveTab] = useState('browse')
+  const [myListings, setMyListings] = useState([])
+  const [tradingListings, setTradingListings] = useState([])
+  const [offers, setOffers] = useState([])
+  const [messages, setMessages] = useState([])
+  const [selectedUser, setSelectedUser] = useState(null)
+  const [newMessage, setNewMessage] = useState('')
+  const [showListModal, setShowListModal] = useState(false)
+  const [showOfferModal, setShowOfferModal] = useState(false)
+  const [selectedItem, setSelectedItem] = useState(null)
+  const [notifications, setNotifications] = useState(true)
+  const [searchTerm, setSearchTerm] = useState('')
+  const [filterType, setFilterType] = useState('all')
+  const [currentUser] = useState({
+    id: 1,
+    name: 'GamerPro123',
+    avatar: '/assets/images/live-match-player-1.png'
+  })
+
+  // Sample data
+  useEffect(() => {
+    setMyListings([
+      {
+        id: 1,
+        title: "Golden Dragon Pet",
+        description: "Rare pet with special powers and abilities. Perfect for any collection!",
+        itemType: "pets",
+        game: "Grow a Garden",
+        image: "/assets/images/shop-img-1.jpg",
+        rarity: "legendary",
+        listedDate: "2024-01-15",
+        status: "active",
+        views: 45,
+        offers: 3
+      },
+      {
+        id: 2,
+        title: "Devil Fruit Pack",
+        description: "Collection of powerful devil fruits for Blox Fruits",
+        itemType: "fruits",
+        game: "Blox Fruits",
+        image: "/assets/images/shop-img-2.jpg",
+        rarity: "epic",
+        listedDate: "2024-01-14",
+        status: "active",
+        views: 32,
+        offers: 1
+      }
+    ])
+
+    setTradingListings([
+      {
+        id: 3,
+        title: "Blox Fruits Gamepass",
+        description: "Unlock special abilities and features in Blox Fruits",
+        itemType: "gamepasses",
+        game: "Blox Fruits",
+        image: "/assets/images/shop-img-3.jpg",
+        rarity: "epic",
+        owner: {
+          id: 2,
+          name: "TradeMaster",
+          avatar: "/assets/images/live-match-player-2.png",
+          rating: 4.8
+        },
+        listedDate: "2024-01-14",
+        views: 67,
+        offers: 5
+      },
+      {
+        id: 4,
+        title: "Premium Tools Set",
+        description: "Advanced tools for better gameplay in Grow a Garden",
+        itemType: "tools",
+        game: "Grow a Garden",
+        image: "/assets/images/shop-img-4.jpg",
+        rarity: "rare",
+        owner: {
+          id: 3,
+          name: "GardenGuru",
+          avatar: "/assets/images/featured-game-1.jpg",
+          rating: 4.5
+        },
+        listedDate: "2024-01-13",
+        views: 28,
+        offers: 2
+      },
+      {
+        id: 5,
+        title: "Legendary Sword",
+        description: "Powerful weapon with special abilities",
+        itemType: "weapons",
+        game: "Adopt Me",
+        image: "/assets/images/featured-game-2.jpg",
+        rarity: "legendary",
+        owner: {
+          id: 4,
+          name: "WeaponSmith",
+          avatar: "/assets/images/featured-game-3.jpg",
+          rating: 4.9
+        },
+        listedDate: "2024-01-12",
+        views: 89,
+        offers: 8
+      }
+    ])
+
+    setOffers([
+      {
+        id: 1,
+        listing: {
+          id: 1,
+          title: "Golden Dragon Pet",
+          image: "/assets/images/shop-img-1.jpg"
+        },
+        from: {
+          id: 5,
+          name: "OfferMaker",
+          avatar: "/assets/images/featured-game-4.jpg",
+          rating: 4.2
+        },
+        offeredItems: [
+          {
+            name: "Rare Sword",
+            image: "/assets/images/shop-img-3.jpg",
+            rarity: "rare"
+          },
+          {
+            name: "Magic Potion",
+            image: "/assets/images/shop-img-4.jpg",
+            rarity: "epic"
+          }
+        ],
+        message: "Would you trade this for my rare sword and magic potion? I can add some points too!",
+        status: "pending",
+        date: "2024-01-16",
+        amount: 500
+      },
+      {
+        id: 2,
+        listing: {
+          id: 2,
+          title: "Devil Fruit Pack",
+          image: "/assets/images/shop-img-2.jpg"
+        },
+        from: {
+          id: 6,
+          name: "FruitCollector",
+          avatar: "/assets/images/blog-1.jpg",
+          rating: 4.7
+        },
+        offeredItems: [
+          {
+            name: "Golden Apple",
+            image: "/assets/images/blog-2.jpg",
+            rarity: "legendary"
+          }
+        ],
+        message: "I have a golden apple that might interest you!",
+        status: "accepted",
+        date: "2024-01-15",
+        amount: 0
+      }
+    ])
+
+    setMessages([
+      {
+        id: 1,
+        from: {
+          id: 5,
+          name: "OfferMaker",
+          avatar: "/assets/images/featured-game-4.jpg"
+        },
+        message: "Hi! I'm interested in your Golden Dragon Pet. Would you consider trading it?",
+        timestamp: "2024-01-16 14:30",
+        unread: true,
+        listingId: 1
+      },
+      {
+        id: 2,
+        from: {
+          id: 6,
+          name: "FruitCollector",
+          avatar: "/assets/images/blog-1.jpg"
+        },
+        message: "Thanks for accepting my trade offer! When can we complete the trade?",
+        timestamp: "2024-01-15 16:45",
+        unread: false,
+        listingId: 2
+      }
+    ])
+  }, [])
+
+  const handleCreateListing = (newListing) => {
+    const listing = {
+      ...newListing,
+      id: Date.now(),
+      listedDate: new Date().toISOString().split('T')[0],
+      status: 'active',
+      views: 0,
+      offers: 0
+    }
+    setMyListings(prev => [...prev, listing])
+    setShowListModal(false)
+  }
+
+  const handleSendOffer = (offeredItems, message, amount) => {
+    const newOffer = {
+      id: Date.now(),
+      listing: selectedItem,
+      from: currentUser,
+      offeredItems: offeredItems,
+      message: message,
+      status: "pending",
+      date: new Date().toISOString().split('T')[0],
+      amount: amount || 0
+    }
+    setOffers(prev => [...prev, newOffer])
+    setShowOfferModal(false)
+    setSelectedItem(null)
+    
+    if (notifications) {
+      alert('Offer sent successfully!')
+    }
+  }
+
+  const handleAcceptOffer = (offerId) => {
+    setOffers(prev => 
+      prev.map(offer => 
+        offer.id === offerId 
+          ? { ...offer, status: "accepted" }
+          : offer
+      )
+    )
+  }
+
+  const handleRejectOffer = (offerId) => {
+    setOffers(prev => 
+      prev.map(offer => 
+        offer.id === offerId 
+          ? { ...offer, status: "rejected" }
+          : offer
+      )
+    )
+  }
+
+  const handleSendMessage = (userId, message) => {
+    const newMessage = {
+      id: Date.now(),
+      from: currentUser,
+      to: { id: userId },
+      message: message,
+      timestamp: new Date().toLocaleString(),
+      unread: false
+    }
+    setMessages(prev => [...prev, newMessage])
+    setNewMessage('')
+  }
+
+  const getRarityColor = (rarity) => {
+    switch (rarity) {
+      case 'common': return '#9CA3AF'
+      case 'rare': return '#3B82F6'
+      case 'epic': return '#8B5CF6'
+      case 'legendary': return '#F59E0B'
+      default: return '#9CA3AF'
+    }
+  }
+
+  const getStatusColor = (status) => {
+    switch (status) {
+      case 'pending': return '#F59E0B'
+      case 'accepted': return '#10B981'
+      case 'rejected': return '#EF4444'
+      default: return '#9CA3AF'
+    }
+  }
+
+  const filteredListings = tradingListings.filter(listing => {
+    const matchesSearch = listing.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         listing.description.toLowerCase().includes(searchTerm.toLowerCase())
+    const matchesFilter = filterType === 'all' || listing.itemType === filterType
+    return matchesSearch && matchesFilter
+  })
+
+  const itemTypes = ['all', 'pets', 'fruits', 'gamepasses', 'tools', 'weapons', 'cosmetics']
+
+  return (
+    <div className="trading-page">
+      {/* Header Section */}
+      <div className="trading-header">
+        <div className="container">
+          <div className="section-title-wrapper">
+            <h2 className="section-title">
+              <RefreshCw size={48} className="title-icon" />
+              Trading System
+            </h2>
+            <p className="section-text">
+              Trade items with other players and build your collection
+            </p>
+            <div className="trading-note">
+              <AlertCircle size={20} />
+              <span>Trades are handled manually between users. Gamics does not auto-swap items.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Tabs Navigation */}
+      <div className="trading-tabs">
+        <div className="container">
+          <div className="tab-navigation">
+            <button 
+              className={`tab-btn ${activeTab === 'browse' ? 'active' : ''}`}
+              onClick={() => setActiveTab('browse')}
+            >
+              <Eye size={20} />
+              Browse Items
+            </button>
+            <button 
+              className={`tab-btn ${activeTab === 'my-listings' ? 'active' : ''}`}
+              onClick={() => setActiveTab('my-listings')}
+            >
+              <Plus size={20} />
+              My Listings
+            </button>
+            <button 
+              className={`tab-btn ${activeTab === 'offers' ? 'active' : ''}`}
+              onClick={() => setActiveTab('offers')}
+            >
+              <MessageSquare size={20} />
+              Offers ({offers.filter(o => o.status === 'pending').length})
+            </button>
+            <button 
+              className={`tab-btn ${activeTab === 'messages' ? 'active' : ''}`}
+              onClick={() => setActiveTab('messages')}
+            >
+              <MessageSquare size={20} />
+              Messages ({messages.filter(m => m.unread).length})
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Browse Items Tab */}
+      {activeTab === 'browse' && (
+        <div className="trading-content">
+          <div className="container">
+            <div className="search-filters">
+              <div className="search-bar">
+                <Search size={20} />
+                <input 
+                  type="text" 
+                  placeholder="Search items..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+              </div>
+              <div className="filter-dropdown">
+                <Filter size={20} />
+                <select value={filterType} onChange={(e) => setFilterType(e.target.value)}>
+                  {itemTypes.map(type => (
+                    <option key={type} value={type}>
+                      {type === 'all' ? 'All Types' : type.charAt(0).toUpperCase() + type.slice(1)}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            <div className="listings-grid">
+              {filteredListings.map(listing => (
+                <div key={listing.id} className="listing-card">
+                  <div className="listing-image">
+                    <img src={listing.image} alt={listing.title} />
+                    <div 
+                      className="rarity-badge"
+                      style={{ backgroundColor: getRarityColor(listing.rarity) }}
+                    >
+                      {listing.rarity}
+                    </div>
+                    <div className="listing-stats">
+                      <div className="stat">
+                        <Eye size={14} />
+                        <span>{listing.views}</span>
+                      </div>
+                      <div className="stat">
+                        <MessageSquare size={14} />
+                        <span>{listing.offers}</span>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="listing-content">
+                    <h4 className="listing-title">{listing.title}</h4>
+                    <p className="listing-description">{listing.description}</p>
+                    <div className="listing-meta">
+                      <span className="item-type">{listing.itemType}</span>
+                      <span className="game">{listing.game}</span>
+                    </div>
+                    
+                    <div className="owner-info">
+                      <img src={listing.owner.avatar} alt={listing.owner.name} className="owner-avatar" />
+                      <div className="owner-details">
+                        <span className="owner-name">{listing.owner.name}</span>
+                        <div className="owner-rating">
+                          <Star size={12} />
+                          <span>{listing.owner.rating}</span>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div className="listing-actions">
+                      <button 
+                        className="offer-btn"
+                        onClick={() => {
+                          setSelectedItem(listing)
+                          setShowOfferModal(true)
+                        }}
+                      >
+                        Send Offer
+                      </button>
+                      <button 
+                        className="message-btn"
+                        onClick={() => {
+                          setSelectedUser(listing.owner)
+                          setActiveTab('messages')
+                        }}
+                      >
+                        Message
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* My Listings Tab */}
+      {activeTab === 'my-listings' && (
+        <div className="trading-content">
+          <div className="container">
+            <div className="my-listings-header">
+              <h3>My Trading Listings</h3>
+              <button 
+                className="create-listing-btn"
+                onClick={() => setShowListModal(true)}
+              >
+                <Plus size={20} />
+                Create New Listing
+              </button>
+            </div>
+            
+            <div className="listings-grid">
+              {myListings.map(listing => (
+                <div key={listing.id} className="listing-card my-listing">
+                  <div className="listing-image">
+                    <img src={listing.image} alt={listing.title} />
+                    <div 
+                      className="rarity-badge"
+                      style={{ backgroundColor: getRarityColor(listing.rarity) }}
+                    >
+                      {listing.rarity}
+                    </div>
+                    <div className="listing-stats">
+                      <div className="stat">
+                        <Eye size={14} />
+                        <span>{listing.views}</span>
+                      </div>
+                      <div className="stat">
+                        <MessageSquare size={14} />
+                        <span>{listing.offers}</span>
+                      </div>
+                    </div>
+                    <div className="status-badge">
+                      {listing.status === 'active' ? 'Active' : 'Inactive'}
+                    </div>
+                  </div>
+                  
+                  <div className="listing-content">
+                    <h4 className="listing-title">{listing.title}</h4>
+                    <p className="listing-description">{listing.description}</p>
+                    <div className="listing-meta">
+                      <span className="item-type">{listing.itemType}</span>
+                      <span className="game">{listing.game}</span>
+                    </div>
+                    
+                    <div className="listing-date">
+                      Listed: {new Date(listing.listedDate).toLocaleDateString()}
+                    </div>
+                    
+                    <div className="listing-actions">
+                      <button className="edit-btn">Edit</button>
+                      <button className="delete-btn">Delete</button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Offers Tab */}
+      {activeTab === 'offers' && (
+        <div className="trading-content">
+          <div className="container">
+            <div className="offers-list">
+              {offers.map(offer => (
+                <div key={offer.id} className="offer-card">
+                  <div className="offer-header">
+                    <div className="offer-from">
+                      <img src={offer.from.avatar} alt={offer.from.name} className="user-avatar" />
+                      <div className="user-info">
+                        <h4>{offer.from.name}</h4>
+                        <div className="user-rating">
+                          <Star size={14} />
+                          <span>{offer.from.rating}</span>
+                        </div>
+                        <span className="offer-date">{offer.date}</span>
+                      </div>
+                    </div>
+                    <div 
+                      className={`offer-status ${offer.status}`}
+                      style={{ color: getStatusColor(offer.status) }}
+                    >
+                      {offer.status}
+                    </div>
+                  </div>
+                  
+                  <div className="offer-content">
+                    <div className="trade-items">
+                      <div className="offering">
+                        <h5>They're offering:</h5>
+                        <div className="items-list">
+                          {offer.offeredItems.map((item, index) => (
+                            <div key={index} className="offered-item">
+                              <img src={item.image} alt={item.name} />
+                              <div className="item-details">
+                                <span className="item-name">{item.name}</span>
+                                <span 
+                                  className="item-rarity"
+                                  style={{ color: getRarityColor(item.rarity) }}
+                                >
+                                  {item.rarity}
+                                </span>
+                              </div>
+                            </div>
+                          ))}
+                          {offer.amount > 0 && (
+                            <div className="points-offer">
+                              <Coins size={16} />
+                              <span>+{offer.amount} points</span>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                      
+                      <div className="arrow">→</div>
+                      
+                      <div className="requesting">
+                        <h5>For your:</h5>
+                        <div className="requested-item">
+                          <img src={offer.listing.image} alt={offer.listing.title} />
+                          <span>{offer.listing.title}</span>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    {offer.message && (
+                      <div className="offer-message">
+                        <strong>Message:</strong> {offer.message}
+                      </div>
+                    )}
+                    
+                    {offer.status === 'pending' && (
+                      <div className="offer-actions">
+                        <button 
+                          className="accept-btn"
+                          onClick={() => handleAcceptOffer(offer.id)}
+                        >
+                          <CheckCircle size={16} />
+                          Accept
+                        </button>
+                        <button 
+                          className="reject-btn"
+                          onClick={() => handleRejectOffer(offer.id)}
+                        >
+                          <XCircle size={16} />
+                          Reject
+                        </button>
+                        <button 
+                          className="message-btn"
+                          onClick={() => {
+                            setSelectedUser(offer.from)
+                            setActiveTab('messages')
+                          }}
+                        >
+                          <MessageSquare size={16} />
+                          Message
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Messages Tab */}
+      {activeTab === 'messages' && (
+        <div className="trading-content">
+          <div className="container">
+            <div className="messages-container">
+              <div className="messages-list">
+                <h3>Conversations</h3>
+                {messages.map(message => (
+                  <div 
+                    key={message.id} 
+                    className={`message-item ${message.unread ? 'unread' : ''}`}
+                    onClick={() => setSelectedUser(message.from)}
+                  >
+                    <img src={message.from.avatar} alt={message.from.name} className="user-avatar" />
+                    <div className="message-info">
+                      <h4>{message.from.name}</h4>
+                      <p>{message.message}</p>
+                      <span className="message-time">{message.timestamp}</span>
+                    </div>
+                    {message.unread && <div className="unread-indicator"></div>}
+                  </div>
+                ))}
+              </div>
+              
+              {selectedUser && (
+                <div className="chat-container">
+                  <div className="chat-header">
+                    <img src={selectedUser.avatar} alt={selectedUser.name} className="user-avatar" />
+                    <h4>{selectedUser.name}</h4>
+                  </div>
+                  
+                  <div className="chat-messages">
+                    {messages
+                      .filter(m => m.from.id === selectedUser.id || m.to?.id === selectedUser.id)
+                      .map(message => (
+                        <div key={message.id} className={`chat-message ${message.from.id === currentUser.id ? 'sent' : 'received'}`}>
+                          <p>{message.message}</p>
+                          <span className="message-time">{message.timestamp}</span>
+                        </div>
+                      ))
+                    }
+                  </div>
+                  
+                  <div className="chat-input">
+                    <input 
+                      type="text" 
+                      value={newMessage}
+                      onChange={(e) => setNewMessage(e.target.value)}
+                      placeholder="Type your message..."
+                      onKeyPress={(e) => {
+                        if (e.key === 'Enter' && newMessage.trim()) {
+                          handleSendMessage(selectedUser.id, newMessage)
+                        }
+                      }}
+                    />
+                    <button 
+                      onClick={() => {
+                        if (newMessage.trim()) {
+                          handleSendMessage(selectedUser.id, newMessage)
+                        }
+                      }}
+                    >
+                      <Send size={16} />
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Create Listing Modal */}
+      {showListModal && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <h3>Create New Listing</h3>
+            <form onSubmit={(e) => {
+              e.preventDefault()
+              const formData = new FormData(e.target)
+              const newListing = Object.fromEntries(formData.entries())
+              handleCreateListing(newListing)
+            }}>
+              <div className="form-group">
+                <label>Item Title</label>
+                <input type="text" name="title" required />
+              </div>
+              <div className="form-group">
+                <label>Description</label>
+                <textarea name="description" required></textarea>
+              </div>
+              <div className="form-group">
+                <label>Item Type</label>
+                <select name="itemType" required>
+                  {itemTypes.filter(t => t !== 'all').map(type => (
+                    <option key={type} value={type}>{type}</option>
+                  ))}
+                </select>
+              </div>
+              <div className="form-group">
+                <label>Game</label>
+                <select name="game" required>
+                  <option value="Blox Fruits">Blox Fruits</option>
+                  <option value="Grow a Garden">Grow a Garden</option>
+                  <option value="Adopt Me">Adopt Me</option>
+                  <option value="Tower Defense">Tower Defense</option>
+                </select>
+              </div>
+              <div className="form-group">
+                <label>Rarity</label>
+                <select name="rarity" required>
+                  <option value="common">Common</option>
+                  <option value="rare">Rare</option>
+                  <option value="epic">Epic</option>
+                  <option value="legendary">Legendary</option>
+                </select>
+              </div>
+              <div className="form-group">
+                <label>Image URL</label>
+                <input type="url" name="image" required />
+              </div>
+              <div className="modal-actions">
+                <button type="button" onClick={() => setShowListModal(false)}>Cancel</button>
+                <button type="submit">Create Listing</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Send Offer Modal */}
+      {showOfferModal && selectedItem && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <h3>Send Trade Offer</h3>
+            <div className="offer-form">
+              <div className="offering-item">
+                <h4>You're offering:</h4>
+                <div className="items-selection">
+                  {myListings.filter(item => item.status === 'active').map(item => (
+                    <label key={item.id} className="item-checkbox">
+                      <input type="checkbox" />
+                      <img src={item.image} alt={item.title} />
+                      <span>{item.title}</span>
+                    </label>
+                  ))}
+                </div>
+                <div className="points-offer">
+                  <label>Additional Points (optional)</label>
+                  <input type="number" placeholder="0" min="0" />
+                </div>
+              </div>
+              
+              <div className="requesting-item">
+                <h4>For their:</h4>
+                <div className="requested-item">
+                  <img src={selectedItem.image} alt={selectedItem.title} />
+                  <span>{selectedItem.title}</span>
+                </div>
+              </div>
+              
+              <div className="form-group">
+                <label>Message (optional)</label>
+                <textarea placeholder="Add a message to your offer..."></textarea>
+              </div>
+              
+              <div className="modal-actions">
+                <button onClick={() => setShowOfferModal(false)}>Cancel</button>
+                <button onClick={() => handleSendOffer([], '', 0)}>Send Offer</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Notifications Toggle */}
+      <div className="notifications-toggle">
+        <label className="toggle-label">
+          <input 
+            type="checkbox" 
+            checked={notifications}
+            onChange={(e) => setNotifications(e.target.checked)}
+          />
+          <Bell size={16} />
+          <span>Enable Notifications</span>
+        </label>
+      </div>
+    </div>
+  )
+}
+
+export default Trading
