@@ -64,9 +64,6 @@ const Header = ({ isHeaderActive, isNavOpen, onToggleNav, onCloseNav, onToggleSe
               <li className="navbar-item">
                 <Link to="/leaderboard" className="navbar-link skewBg" onClick={onCloseNav}>Leaderboard</Link>
               </li>
-              <li className="navbar-item">
-                <Link to="/profile" className="navbar-link skewBg" onClick={onCloseNav}>Profile</Link>
-              </li>
             </ul>
           </nav>
 

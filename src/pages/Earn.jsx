@@ -182,7 +182,7 @@ const Earn = () => {
         </div>
       </section>
 
-      {/* Daily Spin Wheel Section */}
+      {/* Daily Spin Wheel Section - Completely Redesigned */}
       <section className="section spin-section">
         <div className="container">
           <h2 className="h2 section-title">
@@ -192,46 +192,52 @@ const Earn = () => {
             Spin once per day to win amazing prizes and bonus rewards!
           </p>
 
-          <div className="spin-wheel-container">
-            <div className="wheel-wrapper">
+          <div className="spin-wheel-container-new">
+            <div className="wheel-wrapper-new">
               <div 
-                className="spin-wheel" 
+                className="spin-wheel-new" 
                 style={{ transform: `rotate(${wheelRotation}deg)` }}
               >
-                {spinWheelItems.map((item, index) => (
-                  <div 
-                    key={item.id}
-                    className="wheel-segment"
-                    style={{
-                      '--segment-color': item.color,
-                      '--segment-index': index,
-                      '--total-segments': spinWheelItems.length
-                    }}
-                  >
-                    <div className="segment-content">
-                      <div className="segment-icon">
-                        {item.value === 'bonus' ? <RotateCcw size={20} /> : 
-                         item.value === 5000 ? <Crown size={20} /> : 
-                         <Coins size={20} />}
+                {spinWheelItems.map((item, index) => {
+                  const angle = (360 / spinWheelItems.length) * index
+                  const segmentAngle = 360 / spinWheelItems.length
+                  return (
+                    <div 
+                      key={item.id}
+                      className="wheel-segment-new"
+                      style={{
+                        '--segment-color': item.color,
+                        '--segment-angle': angle,
+                        '--segment-index': index,
+                        '--total-segments': spinWheelItems.length,
+                        '--segment-width': segmentAngle
+                      }}
+                    >
+                      <div className="segment-content-new">
+                        <div className="segment-icon-new">
+                          {item.value === 'bonus' ? <RotateCcw size={20} /> : 
+                           item.value === 5000 ? <Crown size={20} /> : 
+                           <Coins size={20} />}
+                        </div>
+                        <div className="segment-text-new">{item.name}</div>
                       </div>
-                      <div className="segment-text">{item.name}</div>
                     </div>
-                  </div>
-                ))}
+                  )
+                })}
               </div>
               
-              <div className="wheel-pointer">
-                <div className="pointer-arrow"></div>
+              <div className="wheel-pointer-new">
+                <div className="pointer-arrow-new"></div>
               </div>
             </div>
             
             <button 
-              className={`spin-button ${!canSpin ? 'disabled' : ''}`}
+              className={`spin-button-new ${!canSpin ? 'disabled' : ''}`}
               onClick={handleSpin}
               disabled={!canSpin || isSpinning}
             >
               {isSpinning ? (
-                <RotateCcw className="spinning-icon" size={24} />
+                <RotateCcw className="spinning-icon-new" size={24} />
               ) : (
                 <Gift size={24} />
               )}
@@ -240,20 +246,20 @@ const Earn = () => {
           </div>
 
           {spinResult && (
-            <div className="spin-result">
-              <div className="result-header">
-                <Trophy size={32} className="result-trophy" />
+            <div className="spin-result-new">
+              <div className="result-header-new">
+                <Trophy size={32} className="result-trophy-new" />
                 <h3>Congratulations!</h3>
               </div>
-              <div className="result-item" style={{backgroundColor: spinResult.color}}>
-                <div className="result-icon">
+              <div className="result-item-new" style={{backgroundColor: spinResult.color}}>
+                <div className="result-icon-new">
                   {spinResult.value === 'bonus' ? <RotateCcw size={24} /> : 
                    spinResult.value === 5000 ? <Crown size={24} /> : 
                    <Coins size={24} />}
                 </div>
-                <div className="result-text">{spinResult.name}</div>
+                <div className="result-text-new">{spinResult.name}</div>
                 {spinResult.xp > 0 && (
-                  <div className="result-xp">+{spinResult.xp} XP</div>
+                  <div className="result-xp-new">+{spinResult.xp} XP</div>
                 )}
               </div>
             </div>

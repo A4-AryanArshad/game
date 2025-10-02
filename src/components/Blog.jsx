@@ -1,29 +1,52 @@
 import { User, Calendar, ChevronRight } from 'lucide-react'
+
 const Blog = () => {
-  const posts = [
-    { id: 1, image: '/assets/images/blog-1.jpg', title: 'Shooter Action Video', date: '2022-09-19', alt: 'Shooter Action Video' },
-    { id: 2, image: '/assets/images/blog-2.jpg', title: 'The Walking Dead', date: '2022-09-19', alt: 'The Walking Dead' },
-    { id: 3, image: '/assets/images/blog-3.jpg', title: 'Defense Of The Ancients', date: '2022-09-19', alt: 'Defense Of The Ancients' }
+  const updates = [
+    { 
+      id: 1, 
+      image: '/assets/images/blog-1.jpg', 
+      title: 'New Roblox Games Added', 
+      date: '2024-01-15', 
+      alt: 'New Roblox Games Added',
+      description: 'We\'ve added 5 new Roblox games to our platform including Blox Fruits and Grow a Garden!'
+    },
+    { 
+      id: 2, 
+      image: '/assets/images/blog-2.jpg', 
+      title: 'Daily Wheel Redesign', 
+      date: '2024-01-10', 
+      alt: 'Daily Wheel Redesign',
+      description: 'The daily wheel has been completely redesigned with a cleaner look and better animations.'
+    },
+    { 
+      id: 3, 
+      image: '/assets/images/blog-3.jpg', 
+      title: 'Leaderboard Updates', 
+      date: '2024-01-05', 
+      alt: 'Leaderboard Updates',
+      description: 'Simplified leaderboard now shows rankings only by points earned for better clarity.'
+    }
   ]
+
   return (
-    <section className="section blog" id="blog" aria-label="blog">
+    <section className="section blog" id="blog" aria-label="latest updates">
       <div className="container">
-        <h2 className="h2 section-title">Latest News & <span className="span">Articles</span></h2>
-        <p className="section-text">Compete With 100 Players On A Remote Island For Winner Takes Showdown Known Issue Where Certain Skin Strategic</p>
+        <h2 className="h2 section-title">Latest <span className="span">Updates</span></h2>
+        <p className="section-text">Stay updated with the latest changes and improvements to our gaming platform</p>
         <ul className="blog-list">
-          {posts.map((p) => (
-            <li key={p.id}>
+          {updates.map((update) => (
+            <li key={update.id}>
               <div className="blog-card">
                 <figure className="card-banner img-holder" style={{'--width': '400', '--height': '290'}}>
-                  <img src={p.image} width="400" height="290" loading="lazy" alt={p.alt} className="img-cover" />
+                  <img src={update.image} width="400" height="290" loading="lazy" alt={update.alt} className="img-cover" />
                 </figure>
                 <div className="card-content">
                   <ul className="card-meta-list">
                     <li className="card-meta-item"><User size={14} /><a href="#" className="item-text">Admin</a></li>
-                    <li className="card-meta-item"><Calendar size={14} /><time dateTime={p.date} className="item-text">September 19, 2022</time></li>
+                    <li className="card-meta-item"><Calendar size={14} /><time dateTime={update.date} className="item-text">{new Date(update.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</time></li>
                   </ul>
-                  <h3><a href="#" className="card-title">{p.title}</a></h3>
-                  <p className="card-text">Compete With 100 Players On A Remote Island Thats Winner Takes Showdown Known Issue.</p>
+                  <h3><a href="#" className="card-title">{update.title}</a></h3>
+                  <p className="card-text">{update.description}</p>
                   <a href="#" className="card-link"><span className="span">Read More</span><ChevronRight size={16} /></a>
                 </div>
               </div>
@@ -34,4 +57,5 @@ const Blog = () => {
     </section>
   )
 }
+
 export default Blog

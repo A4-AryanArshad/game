@@ -6,7 +6,6 @@ import Dashboard from './pages/Dashboard'
 import Marketplace from './pages/Marketplace'
 import Trading from './pages/Trading'
 import Leaderboard from './pages/Leaderboard'
-import Profile from './pages/Profile'
 
 function App() {
   return (
@@ -19,7 +18,6 @@ function App() {
           <Route path="marketplace" element={<Marketplace />} />
           <Route path="trading" element={<Trading />} />
           <Route path="leaderboard" element={<Leaderboard />} />
-          <Route path="profile" element={<Profile />} />
         </Route>
       </Routes>
     </Router>

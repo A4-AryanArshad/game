@@ -1,14 +1,17 @@
 import { useState, useEffect } from 'react'
-import { Trophy, Star, Coins, Calendar, Gift, Crown, TrendingUp, Users, Clock, Award, Target, Zap, Bell, RefreshCw, CheckCircle, AlertCircle, Lock } from 'lucide-react'
+import { Trophy, Star, Coins, Calendar, Gift, Crown, TrendingUp, Users, Clock, Award, Target, Zap, Bell, RefreshCw, CheckCircle, AlertCircle, Lock, User, Settings, Share2, Copy, Shield, Gamepad2, Sparkles, Flame, Diamond, Edit3, Mail } from 'lucide-react'
 
 const Dashboard = () => {
-  const [showDailyRewards, setShowDailyRewards] = useState(true)
+  const [showDailyRewards, setShowDailyRewards] = useState(false)
   const [loginStreak, setLoginStreak] = useState(7)
   const [lastLogin, setLastLogin] = useState(new Date().toISOString().split('T')[0])
   const [currentTime, setCurrentTime] = useState(new Date())
+  const [activeTab, setActiveTab] = useState('overview')
+  const [copied, setCopied] = useState(false)
 
   const user = {
     username: 'GamingPro2024',
+    email: 'gamingpro@example.com',
     level: 28,
     xp: 15420,
     nextLevelXp: 20000,
@@ -16,7 +19,12 @@ const Dashboard = () => {
     totalEarnings: 75000,
     joinDate: '2024-01-15',
     avatar: '/assets/images/live-match-player-1.png',
-    rank: 15
+    rank: 15,
+    referralCode: 'GAMING2024',
+    totalReferrals: 12,
+    currentLevelXp: 15420,
+    streak: 7,
+    gamesPlayed: 45
   }
 
   const dailyRewards = [
@@ -29,6 +37,23 @@ const Dashboard = () => {
     { day: 7, points: 500, xp: 250, item: 'Weekly Jackpot', claimed: false }
   ]
 
+  const achievements = [
+    { id: 1, name: 'First Steps', description: 'Complete your first offer', icon: <Star size={24} />, earned: true, rarity: 'common', points: 100 },
+    { id: 2, name: 'Point Collector', description: 'Earn 10,000 points', icon: <Coins size={24} />, earned: true, rarity: 'rare', points: 500 },
+    { id: 3, name: 'Social Butterfly', description: 'Refer 5 friends', icon: <Share2 size={24} />, earned: true, rarity: 'epic', points: 1000 },
+    { id: 4, name: 'Lucky Spinner', description: 'Win 10 spins', icon: <Trophy size={24} />, earned: false, rarity: 'rare', points: 750 },
+    { id: 5, name: 'Dedicated Player', description: 'Login for 30 days', icon: <Calendar size={24} />, earned: false, rarity: 'epic', points: 1500 },
+    { id: 6, name: 'High Roller', description: 'Earn 50,000 points', icon: <Award size={24} />, earned: false, rarity: 'legendary', points: 2500 }
+  ]
+
+  const recentActivity = [
+    { id: 1, action: 'Earned 500 points', description: 'Completed BitLabs survey', time: '2 hours ago', type: 'earn', amount: '+500' },
+    { id: 2, action: 'Redeemed reward', description: 'Steam Gift Card $10', time: '1 day ago', type: 'redeem', amount: '-2,500' },
+    { id: 3, action: 'Daily spin', description: 'Won 250 points', time: '1 day ago', type: 'spin', amount: '+250' },
+    { id: 4, action: 'Referred friend', description: 'New user joined', time: '3 days ago', type: 'referral', amount: '+1,000' },
+    { id: 5, action: 'Level up!', description: 'Reached level 28', time: '5 days ago', type: 'level', amount: 'Level 28' }
+  ]
+
   const leaderboardData = [
     { rank: 1, username: 'ProGamer2024', points: 125000, xp: 50000, level: 45, avatar: '/assets/images/live-match-player-1.png' },
     { rank: 2, username: 'ElitePlayer', points: 118000, xp: 48000, level: 43, avatar: '/assets/images/live-match-player-2.png' },
@@ -37,69 +62,34 @@ const Dashboard = () => {
     { rank: 5, username: 'WinnerTakesAll', points: 98000, xp: 42000, level: 40, avatar: '/assets/images/featured-game-3.jpg' }
   ]
 
-  const giveaways = [
-    {
-      id: 1,
-      title: 'Monthly Mega Giveaway',
-      description: 'Win 10,000 points and exclusive items!',
-      prize: '10,000 Points + Legendary Items',
-      participants: 1250,
-      endDate: '2024-02-15',
-      status: 'active',
-      image: '/assets/images/featured-game-1.jpg'
-    },
-    {
-      id: 2,
-      title: 'Weekly Spin Contest',
-      description: 'Best spin wins bonus rewards',
-      prize: '5,000 Points',
-      participants: 890,
-      endDate: '2024-01-25',
-      status: 'active',
-      image: '/assets/images/featured-game-2.jpg'
-    }
-  ]
-
-  const pastWinners = [
-    { month: 'January 2024', winner: 'LuckyPlayer123', prize: 'Monthly Mega Giveaway', points: 10000 },
-    { month: 'December 2023', winner: 'GamingChamp', prize: 'Holiday Special', points: 15000 },
-    { month: 'November 2023', winner: 'PointMaster', prize: 'November Giveaway', points: 8000 }
-  ]
-
-  const recentActivity = [
-    { id: 1, action: 'Earned 500 points', description: 'Completed BitLabs survey', time: '2 hours ago', type: 'earn', amount: '+500' },
-    { id: 2, action: 'Redeemed reward', description: 'Steam Gift Card $10', time: '1 day ago', type: 'redeem', amount: '-2,500' },
-    { id: 3, action: 'Daily spin', description: 'Won 250 points', time: '1 day ago', type: 'spin', amount: '+250' },
-    { id: 4, action: 'Level up!', description: 'Reached level 28', time: '5 days ago', type: 'level', amount: 'Level 28' },
-    { id: 5, action: 'Joined giveaway', description: 'Monthly Mega Giveaway', time: '1 week ago', type: 'giveaway', amount: 'Joined' }
-  ]
-
-  const spinHistory = [
-    { date: '2024-01-16', result: '250 Points', xp: 125 },
-    { date: '2024-01-15', result: '500 Points', xp: 250 },
-    { date: '2024-01-14', result: '100 Points', xp: 50 },
-    { date: '2024-01-13', result: 'Bonus Spin', xp: 0 },
-    { date: '2024-01-12', result: '1000 Points', xp: 500 }
-  ]
-
   const referralStats = {
     totalReferrals: 12,
-    bonusPoints: 2500,
-    pendingReferrals: 3
+    bonusPoints: 6000,
+    pendingReferrals: 2
   }
 
+  // Check if 24 hours have passed since last popup
   useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentTime(new Date())
-    }, 1000)
+    const lastPopupTime = localStorage.getItem('lastDailyRewardsPopup')
+    const now = new Date().getTime()
+    const oneDay = 24 * 60 * 60 * 1000
 
-    return () => clearInterval(timer)
+    if (!lastPopupTime || (now - parseInt(lastPopupTime)) > oneDay) {
+      setShowDailyRewards(true)
+    }
   }, [])
 
   const claimDailyReward = (day) => {
     const reward = dailyRewards[day - 1]
     alert(`Claimed Day ${day} reward: ${reward.points} points + ${reward.xp} XP!`)
     setShowDailyRewards(false)
+    localStorage.setItem('lastDailyRewardsPopup', new Date().getTime().toString())
+  }
+
+  const copyReferralCode = () => {
+    navigator.clipboard.writeText(`https://gamics.com/ref/${user.referralCode}`)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
   }
 
   const getActivityIcon = (type) => {
@@ -108,12 +98,29 @@ const Dashboard = () => {
       case 'redeem': return <Gift size={20} className="text-blue-400" />
       case 'spin': return <Zap size={20} className="text-yellow-400" />
       case 'level': return <Crown size={20} className="text-orange-400" />
-      case 'giveaway': return <Trophy size={20} className="text-purple-400" />
+      case 'referral': return <Users size={20} className="text-purple-400" />
       default: return <Clock size={20} />
     }
   }
 
+  const getRarityColor = (rarity) => {
+    switch (rarity) {
+      case 'common': return '#95A5A6'
+      case 'rare': return '#3498DB'
+      case 'epic': return '#9B59B6'
+      case 'legendary': return '#F39C12'
+      default: return '#95A5A6'
+    }
+  }
+
   const xpProgress = ((user.xp / user.nextLevelXp) * 100).toFixed(1)
+
+  const tabs = [
+    { id: 'overview', name: 'Overview', icon: <User size={20} /> },
+    { id: 'achievements', name: 'Achievements', icon: <Trophy size={20} /> },
+    { id: 'activity', name: 'Activity', icon: <Clock size={20} /> },
+    { id: 'settings', name: 'Settings', icon: <Settings size={20} /> }
+  ]
 
   return (
     <div className="dashboard-page">
@@ -136,70 +143,47 @@ const Dashboard = () => {
               <h1 className="main-title-modern">Your Dashboard</h1>
               <p className="subtitle-modern">Welcome back, {user.username}. Track progress, rewards, and activity.</p>
             </div>
-
-            <div className="trading-stats-modern">
-              <div className="stat-item-modern">
-                <div className="stat-icon-modern"><Coins size={22} /></div>
-                <div className="stat-content-modern">
-                  <span className="stat-value-modern">{user.points.toLocaleString()}</span>
-                  <span className="stat-label-modern">Points</span>
-                </div>
-              </div>
-              <div className="stat-item-modern">
-                <div className="stat-icon-modern"><Star size={22} /></div>
-                <div className="stat-content-modern">
-                  <span className="stat-value-modern">{user.xp.toLocaleString()}</span>
-                  <span className="stat-label-modern">Total XP</span>
-                </div>
-              </div>
-              <div className="stat-item-modern">
-                <div className="stat-icon-modern"><Crown size={22} /></div>
-                <div className="stat-content-modern">
-                  <span className="stat-value-modern">Lv. {user.level}</span>
-                  <span className="stat-label-modern">Level</span>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>
 
       {/* Daily Rewards Popup */}
       {showDailyRewards && (
-        <div className="daily-rewards-popup">
-          <div className="popup-content">
-            <div className="popup-header">
-              <h3>Daily Rewards</h3>
-              <button onClick={() => setShowDailyRewards(false)}>×</button>
+        <div className="daily-rewards-popup-modern">
+          <div className="popup-overlay-modern" onClick={() => setShowDailyRewards(false)}></div>
+          <div className="popup-content-modern">
+            <div className="popup-header-modern">
+              <div className="popup-title-modern">
+                <Gift size={24} />
+                <h3>Daily Rewards</h3>
+              </div>
+              <button className="close-btn-modern" onClick={() => setShowDailyRewards(false)}>×</button>
             </div>
-            <div className="streak-info">
-              <div className="streak-badge">
+            <div className="streak-info-modern">
+              <div className="streak-badge-modern">
                 <Zap size={20} />
                 <span>{loginStreak} Day Streak!</span>
               </div>
               <p>Keep logging in to unlock better rewards!</p>
             </div>
-            <div className="rewards-grid">
+            <div className="rewards-grid-modern">
               {dailyRewards.map((reward, index) => (
                 <div 
                   key={index} 
-                  className={`reward-card ${index < loginStreak ? 'claimed' : index === loginStreak ? 'available' : 'locked'}`}
+                  className={`reward-card-modern ${index < loginStreak ? 'claimed' : index === loginStreak ? 'available' : 'locked'}`}
                   onClick={() => index === loginStreak && claimDailyReward(index + 1)}
                 >
-                  <div className="reward-day">Day {reward.day}</div>
-                  <div className="reward-content">
-                    <div className="reward-points">
+                  <div className="reward-day-modern">Day {reward.day}</div>
+                  <div className="reward-content-modern">
+                    <div className="reward-points-modern">
                       <Coins size={16} />
                       <span>{reward.points}</span>
                     </div>
-                    <div className="reward-xp">
+                    <div className="reward-xp-modern">
                       <Star size={16} />
                       <span>{reward.xp} XP</span>
                     </div>
-                    <div className="reward-item">{reward.item}</div>
-                  </div>
-                  <div className="reward-status">
-                    {index < loginStreak ? <CheckCircle size={18} /> : index === loginStreak ? <AlertCircle size={18} /> : <Lock size={18} />}
+                    <div className="reward-item-modern">{reward.item}</div>
                   </div>
                 </div>
               ))}
@@ -208,265 +192,296 @@ const Dashboard = () => {
         </div>
       )}
 
-      {/* Overview Section */}
-      <div className="dashboard-content">
-        <div className="container">
-          <div className="overview-grid">
-            {/* Stats Cards */}
-            <div className="stats-section">
-              <h2 className="section-title">
-                <TrendingUp size={24} />
-                Your Progress
-              </h2>
-              <div className="stats-grid">
-                <div className="stat-card">
-                  <div className="stat-icon coins">
-                    <Coins size={24} />
-                  </div>
-                  <div className="stat-content">
-                    <span className="stat-value">{user.points.toLocaleString()}</span>
-                    <span className="stat-label">Current Points</span>
-                  </div>
-                </div>
-                
-                <div className="stat-card">
-                  <div className="stat-icon xp">
-                    <Star size={24} />
-                  </div>
-                  <div className="stat-content">
-                    <span className="stat-value">{user.xp.toLocaleString()}</span>
-                    <span className="stat-label">Total XP</span>
-                  </div>
-                </div>
-                
-                <div className="stat-card">
-                  <div className="stat-icon level">
-                    <Crown size={24} />
-                  </div>
-                  <div className="stat-content">
-                    <span className="stat-value">{user.level}</span>
-                    <span className="stat-label">Current Level</span>
-                  </div>
-                </div>
-                
-                <div className="stat-card">
-                  <div className="stat-icon earnings">
-                    <Trophy size={24} />
-                  </div>
-                  <div className="stat-content">
-                    <span className="stat-value">{user.totalEarnings.toLocaleString()}</span>
-                    <span className="stat-label">Total Earned</span>
-                  </div>
-                </div>
+      <div className="dashboard-content-modern">
+        {/* Profile Header - Clean Version */}
+        <div className="profile-header-clean">
+          <div className="profile-info-clean">
+            <div className="avatar-section-clean">
+              <div className="avatar-container-clean">
+                <img src={user.avatar} alt={user.username} className="profile-avatar-clean" />
+                <div className="online-indicator-clean"></div>
               </div>
-
-              {/* XP Progress */}
-              <div className="xp-progress-section">
-                <h3>Experience Progress</h3>
-                <div className="xp-progress-container">
-                  <div className="xp-progress-header">
-                    <span className="xp-label">Level {user.level} → {user.level + 1}</span>
-                    <span className="xp-percentage">{xpProgress}%</span>
-                  </div>
-                  <div className="xp-progress-bar">
-                    <div 
-                      className="xp-progress-fill"
-                      style={{ width: `${xpProgress}%` }}
-                    ></div>
-                  </div>
-                  <div className="xp-progress-text">
-                    <span>{user.xp.toLocaleString()} / {user.nextLevelXp.toLocaleString()} XP</span>
-                  </div>
-                </div>
+              <div className="level-badge-clean">
+                <Crown size={16} />
+                <span>Level {user.level}</span>
               </div>
             </div>
-
-            {/* Spin History */}
-            <div className="spin-history-section">
-              <h2 className="section-title">
-                <Zap size={24} />
-                Spin History
-              </h2>
-              <div className="spin-history-list">
-                {spinHistory.map((spin, index) => (
-                  <div key={index} className="spin-history-item">
-                    <div className="spin-date">{spin.date}</div>
-                    <div className="spin-result">{spin.result}</div>
-                    {spin.xp > 0 && (
-                      <div className="spin-xp">+{spin.xp} XP</div>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Referral Stats */}
-            <div className="referral-stats-section">
-              <h2 className="section-title">
-                <Users size={24} />
-                Referral Program
-              </h2>
-              <div className="referral-stats">
-                <div className="referral-stat">
-                  <div className="stat-icon">
-                    <Users size={20} />
-                  </div>
-                  <div className="stat-info">
-                    <span className="stat-number">{referralStats.totalReferrals}</span>
-                    <span className="stat-label">Friends Referred</span>
-                  </div>
-                </div>
-                <div className="referral-stat">
-                  <div className="stat-icon">
-                    <Coins size={20} />
-                  </div>
-                  <div className="stat-info">
-                    <span className="stat-number">{referralStats.bonusPoints.toLocaleString()}</span>
-                    <span className="stat-label">Bonus Points</span>
-                  </div>
-                </div>
-                <div className="referral-stat">
-                  <div className="stat-icon">
-                    <Clock size={20} />
-                  </div>
-                  <div className="stat-info">
-                    <span className="stat-number">{referralStats.pendingReferrals}</span>
-                    <span className="stat-label">Pending</span>
-                  </div>
-                </div>
+            
+            <div className="user-info-clean">
+              <h1 className="username-clean">{user.username}</h1>
+              <p className="user-email-clean">{user.email}</p>
+              <div className="rank-badge-clean">
+                <Trophy size={16} />
+                <span>Rank #{user.rank} • {user.streak} day streak</span>
               </div>
             </div>
           </div>
 
-          {/* Leaderboard Section */}
-          <div className="leaderboard-section">
-            <div className="section-header">
-              <h2 className="section-title">
-                <Trophy size={28} />
-                Monthly Leaderboard
-              </h2>
-              <div className="reset-info">
-                <RefreshCw size={16} />
-                <span>Resets monthly with bonus rewards for top 5!</span>
+          {/* XP Progress Section */}
+          <div className="xp-progress-clean">
+            <div className="xp-header-clean">
+              <div className="xp-info-clean">
+                <h3>Experience Progress</h3>
+                <span className="xp-percentage-clean">{xpProgress}%</span>
+              </div>
+              <div className="xp-details-clean">
+                <span>{user.currentLevelXp.toLocaleString()} / {user.nextLevelXp.toLocaleString()} XP</span>
               </div>
             </div>
-            
-            <div className="leaderboard-container">
-              <div className="leaderboard-header">
-                <div className="rank-col">Rank</div>
-                <div className="player-col">Player</div>
-                <div className="points-col">Points</div>
-                <div className="xp-col">XP</div>
-                <div className="level-col">Level</div>
+            <div className="xp-bar-clean">
+              <div 
+                className="xp-fill-clean"
+                style={{ width: `${xpProgress}%` }}
+              ></div>
+              <div className="xp-glow-clean"></div>
+            </div>
+          </div>
+        </div>
+
+        {/* Navigation Tabs */}
+        <div className="dashboard-tabs-modern">
+          {tabs.map(tab => (
+            <button
+              key={tab.id}
+              className={`tab-button-modern ${activeTab === tab.id ? 'active' : ''}`}
+              onClick={() => setActiveTab(tab.id)}
+            >
+              {tab.icon}
+              <span>{tab.name}</span>
+            </button>
+          ))}
+        </div>
+
+        {/* Tab Content */}
+        <div className="tab-content-modern">
+          {activeTab === 'overview' && (
+            <div className="overview-modern">
+              {/* Referral Section */}
+              <div className="referral-section-modern">
+                <h2 className="section-title-modern">
+                  <Share2 size={24} />
+                  Referral Program
+                </h2>
+                <div className="referral-card-modern">
+                  <div className="referral-info-modern">
+                    <h3>Invite Friends & Earn Rewards</h3>
+                    <p>Share your referral code and earn 500 points for each friend who joins!</p>
+                    <div className="referral-stats-modern">
+                      <div className="referral-stat-modern">
+                        <Users size={20} />
+                        <div>
+                          <span className="stat-number-modern">{referralStats.totalReferrals}</span>
+                          <span className="stat-label-modern">Friends Referred</span>
+                        </div>
+                      </div>
+                      <div className="referral-stat-modern">
+                        <Coins size={20} />
+                        <div>
+                          <span className="stat-number-modern">{referralStats.bonusPoints.toLocaleString()}</span>
+                          <span className="stat-label-modern">Bonus Points</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="referral-code-modern">
+                    <label>Your Referral Code</label>
+                    <div className="code-input-modern">
+                      <input type="text" value={user.referralCode} readOnly />
+                      <button onClick={copyReferralCode} className="copy-btn-modern">
+                        {copied ? <CheckCircle size={16} /> : <Copy size={16} />}
+                        {copied ? 'Copied!' : 'Copy'}
+                      </button>
+                    </div>
+                    <p className="referral-link-modern">https://gamics.com/ref/{user.referralCode}</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Leaderboard Section */}
+              <div className="leaderboard-section-modern">
+                <h2 className="section-title-modern">
+                  <Trophy size={24} />
+                  Monthly Leaderboard
+                </h2>
+                <div className="leaderboard-container-modern">
+                  {leaderboardData.map((player, index) => (
+                    <div key={player.rank} className={`leaderboard-item-modern ${index < 3 ? 'top-three' : ''}`}>
+                      <div className="rank-col-modern">
+                        {index === 0 && <Crown size={20} className="gold" />}
+                        {index === 1 && <Trophy size={20} className="silver" />}
+                        {index === 2 && <Award size={20} className="bronze" />}
+                        {index > 2 && <span className="rank-number-modern">{player.rank}</span>}
+                      </div>
+                      <div className="player-col-modern">
+                        <img src={player.avatar} alt={player.username} className="player-avatar-modern" />
+                        <div className="player-info-modern">
+                          <span className="player-name-modern">{player.username}</span>
+                          {index < 3 && (
+                            <span className="bonus-reward-modern">
+                              +{1000 - (index * 200)} bonus points
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                      <div className="points-col-modern">{player.points.toLocaleString()}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'achievements' && (
+            <div className="achievements-modern">
+              <div className="section-header-modern">
+                <h2 className="section-title-modern">
+                  <Trophy size={28} />
+                  Your Achievements
+                </h2>
+                <p className="section-subtitle-modern">Unlock rewards by completing various challenges</p>
               </div>
               
-              {leaderboardData.map((player, index) => (
-                <div key={player.rank} className={`leaderboard-item ${index < 3 ? 'top-three' : ''}`}>
-                  <div className="rank-col">
-                    {index === 0 && <Crown size={20} className="gold" />}
-                    {index === 1 && <Trophy size={20} className="silver" />}
-                    {index === 2 && <Award size={20} className="bronze" />}
-                    {index > 2 && <span className="rank-number">{player.rank}</span>}
-                  </div>
-                  <div className="player-col">
-                    <img src={player.avatar} alt={player.username} className="player-avatar" />
-                    <div className="player-info">
-                      <span className="player-name">{player.username}</span>
-                      {index < 3 && (
-                        <span className="bonus-reward">
-                          +{1000 - (index * 200)} bonus points
-                        </span>
+              <div className="achievements-grid-modern">
+                {achievements.map(achievement => (
+                  <div 
+                    key={achievement.id} 
+                    className={`achievement-card-modern ${achievement.earned ? 'earned' : 'locked'}`}
+                  >
+                    <div className="achievement-header-modern">
+                      <div className="achievement-icon-modern" style={{ color: getRarityColor(achievement.rarity) }}>
+                        {achievement.icon}
+                      </div>
+                      <div className="achievement-rarity-modern" style={{ color: getRarityColor(achievement.rarity) }}>
+                        {achievement.rarity.toUpperCase()}
+                      </div>
+                    </div>
+                    
+                    <div className="achievement-content-modern">
+                      <h4 className="achievement-name-modern">{achievement.name}</h4>
+                      <p className="achievement-description-modern">{achievement.description}</p>
+                      <div className="achievement-reward-modern">
+                        <Coins size={16} />
+                        <span>{achievement.points} points</span>
+                      </div>
+                    </div>
+                    
+                    <div className="achievement-status-modern">
+                      {achievement.earned ? (
+                        <div className="earned-badge-modern">
+                          <CheckCircle size={20} />
+                          <span>Earned</span>
+                        </div>
+                      ) : (
+                        <div className="locked-badge-modern">
+                          <Shield size={20} />
+                          <span>Locked</span>
+                        </div>
                       )}
                     </div>
                   </div>
-                  <div className="points-col">{player.points.toLocaleString()}</div>
-                  <div className="xp-col">{player.xp.toLocaleString()}</div>
-                  <div className="level-col">{player.level}</div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-          </div>
+          )}
 
-          {/* Giveaways & Raffles */}
-          <div className="giveaways-section">
-            <h2 className="section-title">
-              <Gift size={28} />
-              Giveaways & Raffles
-            </h2>
-            
-            <div className="giveaways-grid">
-              {giveaways.map(giveaway => (
-                <div key={giveaway.id} className="giveaway-card">
-                  <div className="giveaway-image">
-                    <img src={giveaway.image} alt={giveaway.title} />
-                    <div className="giveaway-status">{giveaway.status}</div>
-                  </div>
-                  <div className="giveaway-content">
-                    <h3 className="giveaway-title">{giveaway.title}</h3>
-                    <p className="giveaway-description">{giveaway.description}</p>
-                    <div className="giveaway-prize">
-                      <Gift size={16} />
-                      <span>{giveaway.prize}</span>
+          {activeTab === 'activity' && (
+            <div className="activity-modern">
+              <div className="section-header-modern">
+                <h2 className="section-title-modern">
+                  <Clock size={28} />
+                  Recent Activity
+                </h2>
+                <p className="section-subtitle-modern">Your latest actions and achievements</p>
+              </div>
+              
+              <div className="activity-list-modern">
+                {recentActivity.map(activity => (
+                  <div key={activity.id} className="activity-item-modern">
+                    <div className="activity-icon-modern">
+                      {getActivityIcon(activity.type)}
                     </div>
-                    <div className="giveaway-meta">
-                      <div className="participants">
-                        <Users size={14} />
-                        <span>{giveaway.participants} participants</span>
-                      </div>
-                      <div className="end-date">
-                        <Calendar size={14} />
-                        <span>Ends: {giveaway.endDate}</span>
-                      </div>
+                    <div className="activity-content-modern">
+                      <h4 className="activity-action-modern">{activity.action}</h4>
+                      <p className="activity-description-modern">{activity.description}</p>
                     </div>
-                    <button className="join-btn">Join Giveaway</button>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div className="past-winners">
-              <h3>Past Winners</h3>
-              <div className="winners-list">
-                {pastWinners.map((winner, index) => (
-                  <div key={index} className="winner-item">
-                    <div className="winner-month">{winner.month}</div>
-                    <div className="winner-details">
-                      <span className="winner-name">{winner.winner}</span>
-                      <span className="winner-prize">{winner.prize}</span>
-                      <span className="winner-points">+{winner.points.toLocaleString()} points</span>
+                    <div className="activity-amount-modern">
+                      <span className={`amount-modern ${activity.type}`}>{activity.amount}</span>
+                    </div>
+                    <div className="activity-time-modern">
+                      {activity.time}
                     </div>
                   </div>
                 ))}
               </div>
             </div>
-          </div>
+          )}
 
-          {/* Recent Activity */}
-          <div className="activity-section">
-            <h2 className="section-title">
-              <Clock size={28} />
-              Recent Activity
-            </h2>
-            <div className="activity-list">
-              {recentActivity.map(activity => (
-                <div key={activity.id} className="activity-item">
-                  <div className="activity-icon">
-                    {getActivityIcon(activity.type)}
+          {activeTab === 'settings' && (
+            <div className="settings-modern">
+              <div className="section-header-modern">
+                <h2 className="section-title-modern">
+                  <Settings size={28} />
+                  Account Settings
+                </h2>
+                <p className="section-subtitle-modern">Manage your account preferences and privacy</p>
+              </div>
+              
+              <div className="settings-form-modern">
+                <div className="form-section-modern">
+                  <h3 className="form-section-title-modern">Profile Information</h3>
+                  <div className="form-group-modern">
+                    <label className="form-label-modern">Username</label>
+                    <input type="text" value={user.username} readOnly className="form-input-modern" />
                   </div>
-                  <div className="activity-content">
-                    <h4 className="activity-action">{activity.action}</h4>
-                    <p className="activity-description">{activity.description}</p>
-                  </div>
-                  <div className="activity-amount">
-                    <span className={`amount ${activity.type}`}>{activity.amount}</span>
-                  </div>
-                  <div className="activity-time">
-                    {activity.time}
+                  <div className="form-group-modern">
+                    <label className="form-label-modern">Email Address</label>
+                    <input type="email" value={user.email} className="form-input-modern" />
                   </div>
                 </div>
-              ))}
+                
+                <div className="form-section-modern">
+                  <h3 className="form-section-title-modern">Notification Preferences</h3>
+                  <div className="toggle-group-modern">
+                    <div className="toggle-item-modern">
+                      <div className="toggle-info-modern">
+                        <span className="toggle-title-modern">Email Notifications</span>
+                        <span className="toggle-description-modern">Receive updates via email</span>
+                      </div>
+                      <div className="toggle-switch-modern active">
+                        <div className="toggle-slider-modern"></div>
+                      </div>
+                    </div>
+                    <div className="toggle-item-modern">
+                      <div className="toggle-info-modern">
+                        <span className="toggle-title-modern">Push Notifications</span>
+                        <span className="toggle-description-modern">Get notified about new offers</span>
+                      </div>
+                      <div className="toggle-switch-modern active">
+                        <div className="toggle-slider-modern"></div>
+                      </div>
+                    </div>
+                    <div className="toggle-item-modern">
+                      <div className="toggle-info-modern">
+                        <span className="toggle-title-modern">Marketing Emails</span>
+                        <span className="toggle-description-modern">Receive promotional content</span>
+                      </div>
+                      <div className="toggle-switch-modern">
+                        <div className="toggle-slider-modern"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="form-actions-modern">
+                  <button className="btn-primary-modern">
+                    <CheckCircle size={16} />
+                    Save Changes
+                  </button>
+                  <button className="btn-secondary-modern">Cancel</button>
+                </div>
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
     </div>

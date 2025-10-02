@@ -3,19 +3,12 @@ import { Trophy, Medal, Crown, Star, TrendingUp, Users } from 'lucide-react'
 
 const Leaderboard = () => {
   const [selectedPeriod, setSelectedPeriod] = useState('all-time')
-  const [selectedType, setSelectedType] = useState('points')
 
   const periods = [
     { id: 'daily', name: 'Daily' },
     { id: 'weekly', name: 'Weekly' },
     { id: 'monthly', name: 'Monthly' },
     { id: 'all-time', name: 'All Time' }
-  ]
-
-  const types = [
-    { id: 'points', name: 'Points', icon: <Star size={16} /> },
-    { id: 'xp', name: 'XP', icon: <TrendingUp size={16} /> },
-    { id: 'level', name: 'Level', icon: <Crown size={16} /> }
   ]
 
   const leaderboardData = [
@@ -44,21 +37,6 @@ const Leaderboard = () => {
     if (rank === 3) return '#CD7F32'
     return '#95A5A6'
   }
-
-  const getValue = (user, type) => {
-    switch (type) {
-      case 'points': return user.points
-      case 'xp': return user.xp
-      case 'level': return user.level
-      default: return user.points
-    }
-  }
-
-  const sortedData = [...leaderboardData].sort((a, b) => {
-    const aValue = getValue(a, selectedType)
-    const bValue = getValue(b, selectedType)
-    return bValue - aValue
-  })
 
   return (
     <div className="leaderboard-page">
@@ -95,22 +73,6 @@ const Leaderboard = () => {
                 ))}
               </div>
             </div>
-
-            <div className="filter-group">
-              <h3>Ranking Type</h3>
-              <div className="filter-buttons">
-                {types.map(type => (
-                  <button
-                    key={type.id}
-                    className={`filter-btn ${selectedType === type.id ? 'active' : ''}`}
-                    onClick={() => setSelectedType(type.id)}
-                  >
-                    {type.icon}
-                    <span>{type.name}</span>
-                  </button>
-                ))}
-              </div>
-            </div>
           </div>
         </div>
       </section>
@@ -118,105 +80,84 @@ const Leaderboard = () => {
       {/* Leaderboard */}
       <section className="section leaderboard-section">
         <div className="container">
-          <h2 className="h2 section-title">
-            Top <span className="span">Players</span>
-          </h2>
-
           <div className="leaderboard-container">
-            <div className="leaderboard-header">
+            <div className="leaderboard-header-row">
               <div className="rank-col">Rank</div>
               <div className="player-col">Player</div>
               <div className="points-col">Points</div>
-              <div className="xp-col">XP</div>
               <div className="level-col">Level</div>
             </div>
-
-            <div className="leaderboard-list">
-              {sortedData.map((user, index) => (
-                <div 
-                  key={user.rank} 
-                  className={`leaderboard-item ${index < 3 ? 'top-three' : ''}`}
-                  style={{'--rank-color': getRankColor(user.rank)}}
-                >
-                  <div className="rank-col">
-                    {getRankIcon(user.rank)}
-                  </div>
-                  
-                  <div className="player-col">
-                    <div className="player-avatar">
-                      <img src={user.avatar} alt={user.username} />
-                    </div>
-                    <div className="player-info">
-                      <h4 className="player-name">{user.username}</h4>
-                      <p className="player-title">
-                        {user.rank === 1 ? 'Champion' : 
-                         user.rank === 2 ? 'Runner-up' : 
-                         user.rank === 3 ? 'Third Place' : 
-                         'Player'}
-                      </p>
-                    </div>
-                  </div>
-                  
-                  <div className="points-col">
-                    <span className="value">{user.points.toLocaleString()}</span>
-                  </div>
-                  
-                  <div className="xp-col">
-                    <span className="value">{user.xp.toLocaleString()}</span>
-                  </div>
-                  
-                  <div className="level-col">
-                    <span className="value">Level {user.level}</span>
+            
+            {leaderboardData.map((player, index) => (
+              <div key={player.rank} className={`leaderboard-item ${index < 3 ? 'top-three' : ''}`}>
+                <div className="rank-col">
+                  {getRankIcon(player.rank)}
+                </div>
+                <div className="player-col">
+                  <img src={player.avatar} alt={player.username} className="player-avatar" />
+                  <div className="player-info">
+                    <span className="player-name">{player.username}</span>
+                    {index < 3 && (
+                      <span className="bonus-reward">
+                        +{1000 - (index * 200)} bonus points
+                      </span>
+                    )}
                   </div>
                 </div>
-              ))}
-            </div>
+                <div className="points-col">
+                  <div className="points-value">{player.points.toLocaleString()}</div>
+                  <div className="points-label">points</div>
+                </div>
+                <div className="level-col">
+                  <div className="level-badge">
+                    <Crown size={16} />
+                    <span>Level {player.level}</span>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
-        </div>
-      </section>
 
-      {/* Stats Section */}
-      <section className="section stats-section">
-        <div className="container">
-          <h2 className="h2 section-title">
-            Your <span className="span">Stats</span>
-          </h2>
-          
-          <div className="stats-grid">
-            <div className="stat-card">
-              <div className="stat-icon">
-                <Trophy size={32} />
+          {/* Rewards Info */}
+          <div className="rewards-info">
+            <h3>Ranking Rewards</h3>
+            <div className="rewards-grid">
+              <div className="reward-tier">
+                <div className="tier-icon gold">
+                  <Crown size={24} />
+                </div>
+                <div className="tier-info">
+                  <h4>1st Place</h4>
+                  <p>1000 bonus points + Exclusive badge</p>
+                </div>
               </div>
-              <h3>Current Rank</h3>
-              <p className="stat-value">#15</p>
-              <p className="stat-subtitle">Out of 10,000+ players</p>
-            </div>
-            
-            <div className="stat-card">
-              <div className="stat-icon">
-                <Star size={32} />
+              <div className="reward-tier">
+                <div className="tier-icon silver">
+                  <Medal size={24} />
+                </div>
+                <div className="tier-info">
+                  <h4>2nd Place</h4>
+                  <p>800 bonus points + Premium badge</p>
+                </div>
               </div>
-              <h3>Total Points</h3>
-              <p className="stat-value">45,230</p>
-              <p className="stat-subtitle">Lifetime earned</p>
-            </div>
-            
-            <div className="stat-card">
-              <div className="stat-icon">
-                <TrendingUp size={32} />
+              <div className="reward-tier">
+                <div className="tier-icon bronze">
+                  <Medal size={24} />
+                </div>
+                <div className="tier-info">
+                  <h4>3rd Place</h4>
+                  <p>600 bonus points + Elite badge</p>
+                </div>
               </div>
-              <h3>XP Level</h3>
-              <p className="stat-value">28</p>
-              <p className="stat-subtitle">Keep grinding!</p>
-            </div>
-            
-            <div className="stat-card">
-              <div className="stat-icon">
-                <Users size={32} />
+              <div className="reward-tier">
+                <div className="tier-icon">
+                  <Trophy size={24} />
+                </div>
+                <div className="tier-info">
+                  <h4>Top 10</h4>
+                  <p>200 bonus points + Special badge</p>
+                </div>
               </div>
-              <h3>Referrals</h3>
-              <p className="stat-value">12</p>
-              <p className="stat-subtitle">Friends invited</p>
             </div>
           </div>
         </div>

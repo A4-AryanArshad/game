@@ -4,39 +4,39 @@ const FeaturedGames = () => {
   const games = [
     {
       id: 1,
-      image: '/assets/images/featured-game-1.jpg',
+      image: '/assets/images/blox-fruits.jpg',
       title: 'Blox Fruits',
       platforms: 'Roblox',
       points: '50-500',
       xp: '25-250',
-      alt: 'Blox Fruits'
+      alt: 'Blox Fruits - One Piece inspired Roblox game'
     },
     {
       id: 2,
-      image: '/assets/images/featured-game-2.jpg',
+      image: '/assets/images/grow-a-garden.jpg',
       title: 'Grow a Garden',
       platforms: 'Roblox',
       points: '100-1000',
       xp: '50-500',
-      alt: 'Grow a Garden'
+      alt: 'Grow a Garden - Farming simulation Roblox game'
     },
     {
       id: 3,
-      image: '/assets/images/featured-game-3.jpg',
+      image: '/assets/images/adopt-me.jpg',
       title: 'Adopt Me',
       platforms: 'Roblox',
       points: '75-750',
       xp: '35-350',
-      alt: 'Adopt Me'
+      alt: 'Adopt Me - Pet adoption Roblox game'
     },
     {
       id: 4,
-      image: '/assets/images/featured-game-4.jpg',
-      title: 'Tower Defense',
+      image: '/assets/images/arsenal.jpg',
+      title: 'Arsenal',
       platforms: 'Roblox',
       points: '60-600',
       xp: '30-300',
-      alt: 'Tower Defense'
+      alt: 'Arsenal - FPS shooter Roblox game'
     }
   ]
 
@@ -45,10 +45,10 @@ const FeaturedGames = () => {
       <div className="container">
         <div className="section-title-wrapper">
           <h2 className="h2 section-title">
-            Featured <span className="span">Games</span>
+            Featured <span className="span">Roblox Games</span>
           </h2>
           <p className="section-text">
-            Earn points and XP by completing offers in these popular games
+            Earn points and XP by completing offers in these popular Roblox games
           </p>
         </div>
 
