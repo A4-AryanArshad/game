@@ -384,7 +384,7 @@ body {
 
 /* Logo styling */
 #logo12 img {
-  height: 60px;
+  height: 80px;
   transition: all 0.3s ease;
 }
 
@@ -399,11 +399,11 @@ body {
   }
   
   #logo12 img {
-    height: 50px;
+    height: 65px;
   }
   
   .navbar.active {
-    margin-left: 100px;
+    margin-left: 110px;
   }
   
   /* Hide cart and search buttons on mobile, keep only hamburger menu */
@@ -455,7 +455,7 @@ body {
   /* Add margin-top to header on mobile */
   .header-bottom {
     margin-top: 20px;
-    background-color: #000000 !important;
+    background-color: transparent !important;
   }
 }
 
@@ -470,7 +470,7 @@ body {
   }
   
   #logo12 img {
-    height: 40px;
+    height: 55px;
   }
   
   /* Header actions (hamburger) on small mobile */
@@ -483,13 +483,13 @@ body {
   }
   
   .navbar.active {
-    margin-left: 80px;
+    margin-left: 90px;
   }
   
   /* Add margin-top to header on small mobile */
   .header-bottom {
     margin-top: 15px;
-    background-color: #000000 !important;
+    background-color: transparent !important;
   }
 }
 
@@ -1595,7 +1595,7 @@ body {
   .navbar.active {
     all: unset;
     margin-inline: auto 15px;
-    margin-left: 120px; /* Space for left-positioned logo */
+    margin-left: 140px; /* Space for larger left-positioned logo */
   }
 
   .navbar-list { display: flex; }

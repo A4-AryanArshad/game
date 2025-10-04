@@ -9318,6 +9318,9 @@
   min-height: 100vh;
   background: linear-gradient(135deg, #0f0f23, #1a1a2e);
   color: white;
+  overflow-x: hidden;
+  max-width: 100vw;
+  box-sizing: border-box;
 }
 
 /* Hero Section Alignment */
@@ -9405,6 +9408,342 @@
 
 .leaderboard-page .leaderboard-item .level-col {
   text-align: center;
+}
+
+/* Responsive Leaderboard Styles - Enhanced Specificity */
+@media (max-width: 800px) {
+  /* Hide rewards section on screens 800px and below */
+  .leaderboard-page .rewards-info {
+    display: none !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .leaderboard-page .hero-title {
+    font-size: 36px !important;
+  }
+  
+  .leaderboard-page .hero-text {
+    font-size: 16px !important;
+    padding: 0 20px !important;
+  }
+  
+  .leaderboard-page .leaderboard-filters {
+    gap: 20px !important;
+    margin: 20px 0 !important;
+  }
+  
+  .leaderboard-page .filter-buttons {
+    gap: 8px !important;
+  }
+  
+  .leaderboard-page .filter-btn {
+    padding: 8px 12px !important;
+    font-size: 14px !important;
+  }
+  
+  /* Force responsive grid layout - simplified for mobile */
+  .leaderboard-page .leaderboard-header-row,
+  .leaderboard-page .leaderboard-item {
+    grid-template-columns: 40px 1fr !important;
+    gap: 10px !important;
+    padding: 15px 10px !important;
+  }
+  
+  /* Hide points and level columns on mobile */
+  .leaderboard-page .leaderboard-header-row .points-col,
+  .leaderboard-page .leaderboard-header-row .level-col,
+  .leaderboard-page .leaderboard-item .points-col,
+  .leaderboard-page .leaderboard-item .level-col {
+    display: none !important;
+  }
+  
+  .leaderboard-page .leaderboard-header-row .rank-col {
+    text-align: center !important;
+    font-size: 12px !important;
+  }
+  
+  .leaderboard-page .leaderboard-item .rank-col {
+    text-align: center !important;
+  }
+  
+  .leaderboard-page .leaderboard-header-row .player-col {
+    text-align: left !important;
+    font-size: 12px !important;
+  }
+  
+  .leaderboard-page .leaderboard-item .player-col {
+    text-align: left !important;
+  }
+  
+  .leaderboard-page .player-col {
+    flex-direction: row !important;
+    align-items: center !important;
+    text-align: left !important;
+    gap: 10px !important;
+  }
+  
+  .leaderboard-page .player-avatar {
+    width: 40px !important;
+    height: 40px !important;
+  }
+  
+  .leaderboard-page .player-name {
+    font-size: 16px !important;
+    font-weight: 600 !important;
+  }
+  
+  /* Hide bonus reward on mobile */
+  .leaderboard-page .bonus-reward {
+    display: none !important;
+  }
+  
+  /* Hide rewards section on mobile */
+  .leaderboard-page .rewards-info {
+    display: none !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .leaderboard-page .hero-title {
+    font-size: 28px !important;
+  }
+  
+  .leaderboard-page .hero-text {
+    font-size: 14px !important;
+    padding: 0 15px !important;
+  }
+  
+  .leaderboard-page .leaderboard-filters {
+    gap: 15px !important;
+    margin: 15px 0 !important;
+  }
+  
+  .leaderboard-page .filter-buttons {
+    flex-direction: column !important;
+    gap: 8px !important;
+    width: 100% !important;
+  }
+  
+  .leaderboard-page .filter-btn {
+    padding: 10px 15px !important;
+    font-size: 14px !important;
+    width: 100% !important;
+    justify-content: center !important;
+  }
+  
+  /* Force responsive grid layout for small mobile - simplified */
+  .leaderboard-page .leaderboard-header-row,
+  .leaderboard-page .leaderboard-item {
+    grid-template-columns: 35px 1fr !important;
+    gap: 8px !important;
+    padding: 12px 8px !important;
+  }
+  
+  /* Hide points and level columns on small mobile */
+  .leaderboard-page .leaderboard-header-row .points-col,
+  .leaderboard-page .leaderboard-header-row .level-col,
+  .leaderboard-page .leaderboard-item .points-col,
+  .leaderboard-page .leaderboard-item .level-col {
+    display: none !important;
+  }
+  
+  .leaderboard-page .leaderboard-header-row .rank-col {
+    font-size: 11px !important;
+  }
+  
+  .leaderboard-page .leaderboard-header-row .player-col {
+    font-size: 11px !important;
+  }
+  
+  .leaderboard-page .player-avatar {
+    width: 35px !important;
+    height: 35px !important;
+  }
+  
+  .leaderboard-page .player-name {
+    font-size: 12px !important;
+  }
+  
+  .leaderboard-page .bonus-reward {
+    font-size: 10px !important;
+  }
+  
+  .leaderboard-page .points-value {
+    font-size: 12px !important;
+  }
+  
+  .leaderboard-page .points-label {
+    font-size: 9px !important;
+  }
+  
+  .leaderboard-page .level-badge {
+    font-size: 10px !important;
+    gap: 2px !important;
+  }
+  
+  .leaderboard-page .level-badge svg {
+    width: 12px !important;
+    height: 12px !important;
+  }
+  
+  /* Hide rewards section on small mobile */
+  .leaderboard-page .rewards-info {
+    display: none !important;
+  }
+  
+  /* Additional mobile container adjustments */
+  .leaderboard-page .leaderboard-container {
+    margin: 0 10px !important;
+    border-radius: 10px !important;
+    max-width: 100% !important;
+    overflow-x: hidden !important;
+  }
+  
+  .leaderboard-page .leaderboard-section {
+    padding: 20px 0 !important;
+    overflow-x: hidden !important;
+  }
+  
+  .leaderboard-page .container {
+    padding: 0 10px !important;
+    max-width: 100% !important;
+    overflow-x: hidden !important;
+  }
+  
+  /* Additional small mobile overflow fixes */
+  .leaderboard-page .leaderboard-header-row,
+  .leaderboard-page .leaderboard-item {
+    min-width: 0 !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+  
+  .leaderboard-page .player-name {
+    font-size: 14px !important;
+    max-width: none !important;
+  }
+}
+
+/* Global overflow fix for leaderboard page */
+.leaderboard-page * {
+  box-sizing: border-box;
+}
+
+/* Responsive Spin Wheel Styles */
+@media (max-width: 768px) {
+  /* Make wheel slightly larger on mobile */
+  .wheel-container {
+    width: 350px !important;
+    height: 350px !important;
+  }
+  
+  /* Ensure numbers don't overflow on mobile */
+  .wheel-container div[style*="position: absolute"] {
+    max-width: 30px !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+  
+  /* Adjust pointer for smaller wheel */
+  .wheel-pointer {
+    top: -25px !important;
+    border-left: 18px solid transparent !important;
+    border-right: 18px solid transparent !important;
+    border-bottom: 40px solid red !important;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Make wheel slightly larger on small mobile */
+  .wheel-container {
+    width: 300px !important;
+    height: 300px !important;
+  }
+  
+  /* Ensure numbers don't overflow on small mobile */
+  .wheel-container div[style*="position: absolute"] {
+    max-width: 26px !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+  
+  .wheel-pointer {
+    top: -22px !important;
+    border-left: 16px solid transparent !important;
+    border-right: 16px solid transparent !important;
+    border-bottom: 35px solid red !important;
+  }
+}
+
+.leaderboard-page .container {
+  max-width: 100% !important;
+  overflow-x: hidden !important;
+}
+
+.leaderboard-page .leaderboard-container {
+  max-width: 100% !important;
+  overflow-x: hidden !important;
+}
+
+.leaderboard-page .leaderboard-header-row,
+.leaderboard-page .leaderboard-item {
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+/* Additional responsive adjustments for all screen sizes */
+@media (max-width: 768px) {
+  .leaderboard-page .container {
+    padding: 0 15px !important;
+    max-width: 100% !important;
+    overflow-x: hidden !important;
+  }
+  
+  .leaderboard-page .leaderboard-container {
+    margin: 0 5px !important;
+    max-width: 100% !important;
+    overflow-x: hidden !important;
+  }
+  
+  .leaderboard-page .leaderboard-section {
+    padding: 30px 0 !important;
+    overflow-x: hidden !important;
+  }
+  
+  /* Fix overflow issues */
+  .leaderboard-page {
+    overflow-x: hidden !important;
+    max-width: 100vw !important;
+  }
+  
+  .leaderboard-page .leaderboard-header-row,
+  .leaderboard-page .leaderboard-item {
+    min-width: 0 !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+  
+  /* Ensure grid items don't overflow */
+  .leaderboard-page .rank-col,
+  .leaderboard-page .points-col,
+  .leaderboard-page .level-col {
+    min-width: 0 !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+  
+  .leaderboard-page .player-col {
+    min-width: 0 !important;
+    overflow: hidden !important;
+  }
+  
+  .leaderboard-page .player-name {
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    max-width: 120px !important;
+  }
 }
 
 .filters-section {

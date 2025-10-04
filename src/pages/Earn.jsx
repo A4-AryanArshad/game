@@ -7,6 +7,20 @@ const Earn = () => {
   const [isSpinning, setIsSpinning] = useState(false)
   const [canSpin, setCanSpin] = useState(true)
   const [wheelRotation, setWheelRotation] = useState(0)
+  
+  // Responsive calculations
+  const getResponsiveConfig = () => {
+    if (window.innerWidth <= 480) {
+      return { radius: 110, fontSize: 15, containerSize: 26 } // Small mobile - closer
+    }
+    if (window.innerWidth <= 500) {
+      return { radius: 115, fontSize: 16, containerSize: 28 } // 500px and below - closer
+    }
+    if (window.innerWidth <= 768) {
+      return { radius: 130, fontSize: 17, containerSize: 30 } // Mobile/Tablet
+    }
+    return { radius: 180, fontSize: 21, containerSize: 34 } // Desktop
+  }
 
   const user = {
     level: 15,
@@ -201,7 +215,7 @@ const Earn = () => {
     </p>
 
     <div style={{ display: "flex", justifyContent: "center", margin: "60px 0 20px 0" }}>
-      <div style={{ position: "relative", width: "450px", height: "450px" }}>
+      <div className="wheel-container" style={{ position: "relative", width: "480px", height: "480px" }}>
         
         {/* Wheel */}
         <div
@@ -227,11 +241,13 @@ const Earn = () => {
             const startAngle = segmentAngle * index
             const centerAngle = startAngle + (segmentAngle / 2)
             
+            // Get responsive configuration
+            const config = getResponsiveConfig()
+            
             // Calculate position for center of segment
-            const radius = 170 // Distance from center
             const radians = (centerAngle * Math.PI) / 180
-            const x = Math.sin(radians) * radius
-            const y = -Math.cos(radians) * radius
+            const x = Math.sin(radians) * config.radius
+            const y = -Math.cos(radians) * config.radius
             
             return (
               <div
@@ -241,13 +257,13 @@ const Earn = () => {
                   top: "50%",
                   left: "50%",
                   transform: `translate(${x}px, ${y}px) rotate(${-wheelRotation}deg)`,
-                  fontSize: "20px",
+                  fontSize: `${config.fontSize}px`,
                   fontWeight: "bold",
                   color: "#fff",
                   textShadow: "2px 2px 4px rgba(0,0,0,0.8)",
                   textAlign: "center",
-                  width: "32px",
-                  height: "32px",
+                  width: `${config.containerSize}px`,
+                  height: `${config.containerSize}px`,
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
@@ -264,6 +280,7 @@ const Earn = () => {
 
         {/* Pointer */}
         <div
+          className="wheel-pointer"
           style={{
             position: "absolute",
             top: "-35px",
