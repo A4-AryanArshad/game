@@ -360,6 +360,137 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: relative;
+}
+
+/* Logo positioning - flexible for comparison */
+#logo12 {
+  position: absolute;
+  top: 50%;
+  left: 20px;
+  transform: translateY(-50%);
+  z-index: 10;
+  transition: all 0.3s ease;
+}
+
+/* Alternative center positioning (for comparison) */
+#logo12.center {
+  position: static;
+  transform: none;
+  left: auto;
+  top: auto;
+  order: 2;
+}
+
+/* Logo styling */
+#logo12 img {
+  height: 60px;
+  transition: all 0.3s ease;
+}
+
+#logo12:hover img {
+  transform: scale(1.05);
+}
+
+/* Responsive adjustments for logo positioning */
+@media (max-width: 768px) {
+  #logo12 {
+    left: 15px;
+  }
+  
+  #logo12 img {
+    height: 50px;
+  }
+  
+  .navbar.active {
+    margin-left: 100px;
+  }
+  
+  /* Hide cart and search buttons on mobile, keep only hamburger menu */
+  .cart-btn,
+  .search-btn {
+    display: none !important;
+  }
+  
+  .header-actions {
+    gap: 0;
+  }
+  
+  /* Ensure only hamburger menu is visible */
+  .header-actions .nav-toggle-btn {
+    display: block !important;
+  }
+  
+  /* Hide header-top section on mobile */
+  .header-top {
+    display: none !important;
+  }
+  
+  /* Ensure proper mobile layout: logo left, hamburger right */
+  .header-bottom .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+  }
+  
+  /* Logo positioning on mobile */
+  #logo12 {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+  }
+  
+  /* Header actions (hamburger) on mobile */
+  .header-actions {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+  }
+  
+  /* Add margin-top to header on mobile */
+  .header-bottom {
+    margin-top: 20px;
+    background-color: #000000 !important;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Logo positioning on small mobile */
+  #logo12 {
+    left: 10px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+  }
+  
+  #logo12 img {
+    height: 40px;
+  }
+  
+  /* Header actions (hamburger) on small mobile */
+  .header-actions {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+  }
+  
+  .navbar.active {
+    margin-left: 80px;
+  }
+  
+  /* Add margin-top to header on small mobile */
+  .header-bottom {
+    margin-top: 15px;
+    background-color: #000000 !important;
+  }
 }
 
 .logo {
@@ -1464,6 +1595,7 @@ body {
   .navbar.active {
     all: unset;
     margin-inline: auto 15px;
+    margin-left: 120px; /* Space for left-positioned logo */
   }
 
   .navbar-list { display: flex; }

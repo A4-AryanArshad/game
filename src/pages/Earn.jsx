@@ -25,12 +25,18 @@ const Earn = () => {
   ]
 
   const spinWheelItems = [
-    { id: 1, name: '100 Points', value: 100, color: '#FF6B6B', probability: 30, xp: 50 },
-    { id: 2, name: '250 Points', value: 250, color: '#4ECDC4', probability: 25, xp: 125 },
-    { id: 3, name: '500 Points', value: 500, color: '#45B7D1', probability: 20, xp: 250 },
-    { id: 4, name: '1000 Points', value: 1000, color: '#96CEB4', probability: 15, xp: 500 },
-    { id: 5, name: 'Bonus Spin', value: 'bonus', color: '#FFEAA7', probability: 7, xp: 0 },
-    { id: 6, name: 'Jackpot!', value: 5000, color: '#DDA0DD', probability: 3, xp: 2500 }
+    { id: 1, name: '5', value: 5, color: '#FF8C42', probability: 8.33, xp: 2 },
+    { id: 2, name: '10', value: 10, color: '#FF6B35', probability: 8.33, xp: 5 },
+    { id: 3, name: '15', value: 15, color: '#FF8C42', probability: 8.33, xp: 7 },
+    { id: 4, name: '20', value: 20, color: '#FF6B35', probability: 8.33, xp: 10 },
+    { id: 5, name: '25', value: 25, color: '#FF8C42', probability: 8.33, xp: 12 },
+    { id: 6, name: '30', value: 30, color: '#FF6B35', probability: 8.33, xp: 15 },
+    { id: 7, name: '35', value: 35, color: '#FF8C42', probability: 8.33, xp: 17 },
+    { id: 8, name: '40', value: 40, color: '#FF6B35', probability: 8.33, xp: 20 },
+    { id: 9, name: '45', value: 45, color: '#FF8C42', probability: 8.33, xp: 22 },
+    { id: 10, name: '50', value: 50, color: '#FF6B35', probability: 8.33, xp: 25 },
+    { id: 11, name: '100', value: 100, color: '#FF8C42', probability: 8.33, xp: 50 },
+    { id: 12, name: '150', value: 150, color: '#FF6B35', probability: 8.33, xp: 75 }
   ]
 
   const xpLevels = [
@@ -61,16 +67,17 @@ const Earn = () => {
     
     // Simulate spin delay
     setTimeout(() => {
-      const random = Math.random() * 100
-      let cumulativeProbability = 0
+      // Calculate which segment the pointer is pointing to
+      const normalizedRotation = ((totalRotation % 360) + 360) % 360
+      const segmentAngle = 360 / spinWheelItems.length
       
-      for (const item of spinWheelItems) {
-        cumulativeProbability += item.probability
-        if (random <= cumulativeProbability) {
-          setSpinResult(item)
-          break
-        }
-      }
+      // Find which segment the pointer is pointing to (top is 0 degrees)
+      // We need to account for the fact that segments start at different angles
+      let segmentIndex = Math.floor((360 - normalizedRotation + (segmentAngle / 2)) / segmentAngle)
+      segmentIndex = segmentIndex % spinWheelItems.length
+      
+      const result = spinWheelItems[segmentIndex]
+      setSpinResult(result)
       
       setIsSpinning(false)
       
@@ -182,90 +189,141 @@ const Earn = () => {
         </div>
       </section>
 
-      {/* Daily Spin Wheel Section - Completely Redesigned */}
-      <section className="section spin-section">
-        <div className="container">
-          <h2 className="h2 section-title">
-            Daily <span className="span">Spin Wheel</span>
-          </h2>
-          <p className="section-text">
-            Spin once per day to win amazing prizes and bonus rewards!
-          </p>
+      {/* Daily Spin Wheel Section */}
+    {/* Daily Spin Wheel Section */}
+<section className="section spin-section">
+  <div className="container">
+    <h2 className="h2 section-title">
+      Daily <span className="span">Spin Wheel</span>
+    </h2>
+    <p className="section-text">
+      Spin once per day to win amazing prizes and bonus rewards!
+    </p>
 
-          <div className="spin-wheel-container-new">
-            <div className="wheel-wrapper-new">
-              <div 
-                className="spin-wheel-new" 
-                style={{ transform: `rotate(${wheelRotation}deg)` }}
-              >
-                {spinWheelItems.map((item, index) => {
-                  const angle = (360 / spinWheelItems.length) * index
-                  const segmentAngle = 360 / spinWheelItems.length
-                  return (
-                    <div 
-                      key={item.id}
-                      className="wheel-segment-new"
-                      style={{
-                        '--segment-color': item.color,
-                        '--segment-angle': angle,
-                        '--segment-index': index,
-                        '--total-segments': spinWheelItems.length,
-                        '--segment-width': segmentAngle
-                      }}
-                    >
-                      <div className="segment-content-new">
-                        <div className="segment-icon-new">
-                          {item.value === 'bonus' ? <RotateCcw size={20} /> : 
-                           item.value === 5000 ? <Crown size={20} /> : 
-                           <Coins size={20} />}
-                        </div>
-                        <div className="segment-text-new">{item.name}</div>
-                      </div>
-                    </div>
-                  )
-                })}
-              </div>
-              
-              <div className="wheel-pointer-new">
-                <div className="pointer-arrow-new"></div>
-              </div>
-            </div>
+    <div style={{ display: "flex", justifyContent: "center", margin: "60px 0 20px 0" }}>
+      <div style={{ position: "relative", width: "450px", height: "450px" }}>
+        
+        {/* Wheel */}
+        <div
+          style={{
+            width: "100%",
+            height: "100%",
+            borderRadius: "50%",
+            border: "6px solid #333",
+            transform: `rotate(${wheelRotation}deg)`,
+            transition: isSpinning ? "transform 3s ease-out" : "none",
+            background: `conic-gradient(
+              ${spinWheelItems
+                .map(
+                  (item, i) =>
+                    `${item.color} ${(360 / spinWheelItems.length) * i}deg ${(360 / spinWheelItems.length) * (i + 1)}deg`
+                )
+                .join(", ")}
+            )`
+          }}
+        >
+          {spinWheelItems.map((item, index) => {
+            const segmentAngle = 360 / spinWheelItems.length
+            const startAngle = segmentAngle * index
+            const centerAngle = startAngle + (segmentAngle / 2)
             
-            <button 
-              className={`spin-button-new ${!canSpin ? 'disabled' : ''}`}
-              onClick={handleSpin}
-              disabled={!canSpin || isSpinning}
-            >
-              {isSpinning ? (
-                <RotateCcw className="spinning-icon-new" size={24} />
-              ) : (
-                <Gift size={24} />
-              )}
-              {canSpin ? 'Spin Now!' : 'Come Back Tomorrow'}
-            </button>
-          </div>
-
-          {spinResult && (
-            <div className="spin-result-new">
-              <div className="result-header-new">
-                <Trophy size={32} className="result-trophy-new" />
-                <h3>Congratulations!</h3>
+            // Calculate position for center of segment
+            const radius = 170 // Distance from center
+            const radians = (centerAngle * Math.PI) / 180
+            const x = Math.sin(radians) * radius
+            const y = -Math.cos(radians) * radius
+            
+            return (
+              <div
+                key={item.id}
+                style={{
+                  position: "absolute",
+                  top: "50%",
+                  left: "50%",
+                  transform: `translate(${x}px, ${y}px) rotate(${-wheelRotation}deg)`,
+                  fontSize: "20px",
+                  fontWeight: "bold",
+                  color: "#fff",
+                  textShadow: "2px 2px 4px rgba(0,0,0,0.8)",
+                  textAlign: "center",
+                  width: "32px",
+                  height: "32px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  pointerEvents: "none",
+                  transition: isSpinning ? "transform 3s ease-out, opacity 0.3s ease" : "opacity 0.3s ease",
+                  opacity: isSpinning ? 0 : 1
+                }}
+              >
+                {item.name}
               </div>
-              <div className="result-item-new" style={{backgroundColor: spinResult.color}}>
-                <div className="result-icon-new">
-                  {spinResult.value === 'bonus' ? <RotateCcw size={24} /> : 
-                   spinResult.value === 5000 ? <Crown size={24} /> : 
-                   <Coins size={24} />}
-                </div>
-                <div className="result-text-new">{spinResult.name}</div>
-                {spinResult.xp > 0 && (
-                  <div className="result-xp-new">+{spinResult.xp} XP</div>
-                )}
-              </div>
-            </div>
-          )}
+            )
+          })}
         </div>
-      </section>
+
+        {/* Pointer */}
+        <div
+          style={{
+            position: "absolute",
+            top: "-35px",
+            left: "50%",
+            transform: "translateX(-50%) rotate(180deg)",
+            width: "0",
+            height: "0",
+            borderLeft: "20px solid transparent",
+            borderRight: "20px solid transparent",
+            borderBottom: "50px solid red",
+            zIndex: 10
+          }}
+        ></div>
+      </div>
+    </div>
+
+    {/* Spin Button */}
+    <button
+      className={`spin-button-single ${!canSpin ? "disabled" : ""}`}
+      onClick={handleSpin}
+      disabled={!canSpin || isSpinning}
+      style={{
+        marginTop: "20px",
+        padding: "12px 24px",
+        background: "#ff6b35",
+        color: "white",
+        border: "none",
+        borderRadius: "8px",
+        cursor: "pointer",
+        fontSize: "16px",
+        fontWeight: "bold"
+      }}
+    >
+      {isSpinning ? (
+        <RotateCcw className="spinning-icon-single" size={24} />
+      ) : (
+        <Gift size={24} />
+      )}
+      {canSpin ? "Spin Now!" : "Come Back Tomorrow"}
+    </button>
+
+    {/* Spin Result */}
+    {spinResult && (
+      <div
+        style={{
+          marginTop: "20px",
+          padding: "15px",
+          borderRadius: "10px",
+          backgroundColor: spinResult.color,
+          color: "#fff",
+          textAlign: "center",
+          fontWeight: "bold"
+        }}
+      >
+        🎉 You won: {spinResult.name} Points (+{spinResult.xp} XP)
+      </div>
+    )}
+  </div>
+</section>
+
 
       {/* Offerwalls Section */}
       <section className="section offerwalls-section">

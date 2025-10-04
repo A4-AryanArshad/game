@@ -115,6 +115,7 @@ const Dashboard = () => {
 
   const xpProgress = ((user.xp / user.nextLevelXp) * 100).toFixed(1)
 
+
   const tabs = [
     { id: 'overview', name: 'Overview', icon: <User size={20} /> },
     { id: 'achievements', name: 'Achievements', icon: <Trophy size={20} /> },

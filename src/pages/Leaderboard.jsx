@@ -45,7 +45,6 @@ const Leaderboard = () => {
           <div className="hero-content">
             <p className="hero-subtitle">Competition</p>
             <h1 className="h1 hero-title">
-              <Trophy size={48} className="hero-icon" />
               Leaderboard
             </h1>
             <p className="hero-text">

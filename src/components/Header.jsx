@@ -40,9 +40,11 @@ const Header = ({ isHeaderActive, isNavOpen, onToggleNav, onCloseNav, onToggleSe
 
       <div className={`header-bottom skewBg ${isHeaderActive ? 'active' : ''}`}>
         <div className="container">
+        {/* Logo - positioned top-left by default. 
+            Add 'center' class to id="logo12" to switch to center positioning */}
         <Link to="/" id="logo12">
-  <img src="./logo.png" alt="Logo" style={{ height: "90px" }} />
-</Link>
+          <img src="./logo.png" alt="Logo" />
+        </Link>
 
           <nav className={`navbar ${isNavOpen ? 'active' : ''}`}>
             <ul className="navbar-list">
