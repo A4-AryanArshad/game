@@ -116,49 +116,6 @@ const Leaderboard = () => {
               </div>
             ))}
           </div>
-
-          {/* Rewards Info */}
-          <div className="rewards-info">
-            <h3>Ranking Rewards</h3>
-            <div className="rewards-grid">
-              <div className="reward-tier">
-                <div className="tier-icon gold">
-                  <Crown size={24} />
-                </div>
-                <div className="tier-info">
-                  <h4>1st Place</h4>
-                  <p>1000 bonus points + Exclusive badge</p>
-                </div>
-              </div>
-              <div className="reward-tier">
-                <div className="tier-icon silver">
-                  <Medal size={24} />
-                </div>
-                <div className="tier-info">
-                  <h4>2nd Place</h4>
-                  <p>800 bonus points + Premium badge</p>
-                </div>
-              </div>
-              <div className="reward-tier">
-                <div className="tier-icon bronze">
-                  <Medal size={24} />
-                </div>
-                <div className="tier-info">
-                  <h4>3rd Place</h4>
-                  <p>600 bonus points + Elite badge</p>
-                </div>
-              </div>
-              <div className="reward-tier">
-                <div className="tier-icon">
-                  <Trophy size={24} />
-                </div>
-                <div className="tier-info">
-                  <h4>Top 10</h4>
-                  <p>200 bonus points + Special badge</p>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </section>
     </div>

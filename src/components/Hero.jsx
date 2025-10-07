@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import "./Style.css"
 
 const Hero = () => {
   return (
@@ -19,7 +20,7 @@ const Hero = () => {
             Trade items with other players and climb the leaderboards!
           </p>
           <div className="hero-actions">
-            <Link to="/earn" className="btn skewBg">Start Earning</Link>
+            <Link to="/earn" id="kjk" className="btn skewBg">Start Earning</Link>
             <Link to="/marketplace" className="btn-outline">Browse Rewards</Link>
           </div>
         </div>

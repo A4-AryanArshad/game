@@ -208,6 +208,7 @@ body {
   font-weight: var(--fw-700);
   min-height: 55px;
   padding-inline: 35px;
+  text-align: center;
 }
 
 .skewBg {
@@ -1642,6 +1643,9 @@ body {
   }
 
   .btn { margin-inline: 0; }
+  
+  /* Center button text in hero section */
+  .hero .btn { text-align: center; }
 
 
 
