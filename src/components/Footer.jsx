@@ -52,9 +52,6 @@ const Footer = () => {
             <li>
               <Link to="/leaderboard" className="footer-link">Leaderboard</Link>
             </li>
-            <li>
-              <Link to="/dashboard" className="footer-link">Dashboard</Link>
-            </li>
           </ul>
 
           <ul className="footer-list">

@@ -41,7 +41,7 @@ const Layout = () => {
   // Close profile menu when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (showProfileMenu && !event.target.closest('.profile-container-top-right')) {
+      if (showProfileMenu && !event.target.closest('.profile-container-header')) {
         setShowProfileMenu(false)
       }
     }
@@ -79,92 +79,17 @@ const Layout = () => {
 
   return (
     <>
-      {/* Profile Section - Top Right */}
-      <div className="profile-section-top-right">
-        <div className="profile-container-top-right">
-          <div className="profile-info-top-right">
-            <div className="profile-avatar-top-right">
-              <img src={user.avatar} alt={user.username} />
-              <div className="online-indicator-top-right"></div>
-            </div>
-            <div className="profile-details-top-right">
-              <div className="profile-points-top-right">
-                <Coins size={16} />
-                <span>{user.points.toLocaleString()}</span>
-              </div>
-              <div className="profile-level-top-right">
-                <Crown size={14} />
-                <span>Lv.{user.level}</span>
-              </div>
-            </div>
-          </div>
-          
-          <button 
-            className="profile-toggle-top-right"
-            onClick={() => setShowProfileMenu(!showProfileMenu)}
-          >
-            ▼
-          </button>
-
-          {/* Profile Menu Dropdown */}
-          {showProfileMenu && (
-            <div className="profile-menu-dropdown">
-              <div className="profile-menu-header">
-                <div className="menu-user-info">
-                  <img src={user.avatar} alt={user.username} />
-                  <div>
-                    <h4>{user.username}</h4>
-                    <p>{user.email}</p>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="profile-menu-items">
-                <button 
-                  className="profile-menu-item" 
-                  onClick={() => handleMenuNavigation('profile')}
-                >
-                  <User size={16} />
-                  <span>View Profile</span>
-                </button>
-                <button 
-                  className="profile-menu-item" 
-                  onClick={() => handleMenuNavigation('settings')}
-                >
-                  <Settings size={16} />
-                  <span>Settings</span>
-                </button>
-                <button 
-                  className="profile-menu-item" 
-                  onClick={() => handleMenuNavigation('achievements')}
-                >
-                  <Trophy size={16} />
-                  <span>Achievements</span>
-                </button>
-                <button 
-                  className="profile-menu-item" 
-                  onClick={() => handleMenuNavigation('referral')}
-                >
-                  <Share2 size={16} />
-                  <span>Referral Code</span>
-                </button>
-                <div className="profile-menu-divider"></div>
-                <button className="profile-menu-item logout" onClick={handleLogout}>
-                  <Lock size={16} />
-                  <span>Log Out</span>
-                </button>
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
-
       <Header
         isHeaderActive={isHeaderActive}
         isNavOpen={isNavOpen}
         onToggleNav={toggleNav}
         onCloseNav={closeNav}
         onToggleSearch={toggleSearch}
+        user={user}
+        showProfileMenu={showProfileMenu}
+        setShowProfileMenu={setShowProfileMenu}
+        handleMenuNavigation={handleMenuNavigation}
+        handleLogout={handleLogout}
       />
       <SearchBox isOpen={isSearchOpen} onClose={closeSearch} />
 
